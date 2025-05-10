@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
   return (
@@ -14,12 +15,12 @@ const NotFound = () => {
         <p className="text-gray-600 mt-8 text-lg">
           Sorry, the page you're looking for doesn't exist.
         </p>
-        <a
-          href="/"
-          className="mt-6 inline-block px-6 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded shadow transition"
+        <Link
+          to={"/"}
+          className="bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 font-semibold py-3.5 px-6 text-[16px] rounded-4xl cursor-pointer  border-0 outline-0 inline-flex justify-center align-center mt-4"
         >
           Go Home
-        </a>
+        </Link>
       </div>
     </div>
   );

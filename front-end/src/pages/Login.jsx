@@ -1,8 +1,7 @@
 import React from "react";
-import SILogin from "../components/ssiap-1/SILogin";
-
+import UserLogin from "../components/login/UserLogin.jsx";
 const Login = () => {
-  return <SILogin />;
+  return <UserLogin />;
 };
 
 export default Login;

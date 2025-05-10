@@ -3,8 +3,8 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { SSIAP_1_DASHBOARD_ROUTE } from "../routes";
 import { useUserContext } from "../context/UserContext.jsx";
-import GlobalHeader from "../components/layouts/GlobalHeader.jsx";
 import { Button } from "@/components/ui/button";
+import { House, LogIn } from "lucide-react";
 
 const GuestLayout = () => {
   const navigate = useNavigate();
@@ -16,37 +16,34 @@ const GuestLayout = () => {
     }
   }, []);
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
-      <GlobalHeader />
-      <header className="bg-white shadow-lg shadow-gray-200">
-        <div className="max-w-6xl mx-auto px-2 py-4 flex justify-between items-center">
-          <h1 className="text-sky-800">
-            <span className="text-2xl font-semibold text-sky-800">CASA</span>{" "}
-            <span className="text-yellow-600">vigilance</span>.
-          </h1>
-          <nav className="space-x-4">
+    <div className="flex flex-col min-h-screen text-gray-800">
+      <div className="bg-white mx-auto w-[calc(100%)] max-w-8xl min-h-[calc(100vh-1rem)]">
+        <div className="px-6 py-4 flex justify-end">
+          <nav className="flex space-x-4 bg-sky-900 px-6 py-2 rounded-4xl border-none">
             <Link to={"/"}>
-              <Button className="bg-sky-800 text-white border border-sky-800 hover:bg-white hover:border-sky-800 hover:text-sky-800 transition-colors duration-200 px-4 py-2 rounded-2xl">
+              <Button
+                variant="ghost"
+                className="text-white rounded-2xl hover:bg-sky-800 hover:text-white transition duration-200 px-4 py-2"
+              >
                 Home
+                <House />
               </Button>
             </Link>
             <Link to={"/login"}>
-              <Button className="bg-sky-800 text-white border border-sky-800 hover:bg-white hover:border-sky-800 hover:text-sky-800 transition-colors duration-200 px-4 py-2 rounded-2xl">
+              <Button
+                variant="ghost"
+                className="text-white rounded-2xl hover:bg-sky-800 hover:text-white transition duration-200 px-4 py-2"
+              >
                 Login
+                <LogIn />
               </Button>
             </Link>
           </nav>
         </div>
-      </header>
-
-      <main className="flex-grow py-6 px-4 mx-16">
-        <Outlet />
-      </main>
-
-      <footer className="bg-gray-200 text-center py-4 text-sm text-gray-600">
-        © 2025 <span className="text-yellow-500 font-medium">MyApp</span>. All
-        rights reserved.
-      </footer>
+        <div className="flex-1 py-2 px-4 mx-4">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

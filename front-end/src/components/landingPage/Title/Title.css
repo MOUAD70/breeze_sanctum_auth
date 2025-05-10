@@ -1,0 +1,20 @@
+.container {
+    padding: 0px 10% 0px 10%;
+}
+
+.title {
+    text-align: center;
+    color: #D1D5DB;
+    font-size: 58px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 60px 0 30px 0;
+}
+
+.title h2 {
+    font-size: 28px;
+    color: #0C4A6E;
+    text-transform: none;
+    font-weight: 400;
+    margin-top: -28px;
+}
