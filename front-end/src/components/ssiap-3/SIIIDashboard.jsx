@@ -1,9 +1,6 @@
 import { CheckCircle2, Shield, User, XCircle } from "lucide-react";
-import { useUserContext } from "../../context/UserContext";
 
 const SIIIDashboard = () => {
-  const { user } = useUserContext();
-  console.log(user);
   return (
     <div className="min-h-screen bg-white px-6 py-2 space-y-6">
       <div className="bg-gradient-to-t from-sky-900 to-sky-800 text-white p-6 rounded-xl">

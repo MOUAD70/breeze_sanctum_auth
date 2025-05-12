@@ -6,9 +6,11 @@ import GuestLayout from "../layouts/GuestLayout";
 import Unauthorized from "../pages/errors/Unauthorized";
 import SIIIAttendance from "../components/ssiap-3/SIIIAttendance";
 import EmployeesList from "../components/ssiap-3/EmployeesList";
-import AddEmployee from "../components/ssiap-3/AddEmployee";
 import Replacement from "../components/ssiap-3/Replacement";
 import Vacations from "../components/ssiap-3/Vacations";
+import EmployeesListII from "../components/ssiap-2/EmployeesListII";
+import AddEmployeeForm from "../components/ssiap-3/AddEmployeeForm";
+import AddEmployeeFormII from "../components/ssiap-2/AddEmployeeFormII";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -21,15 +23,22 @@ const SIIDashboard = lazy(() => import("../components/ssiap-2/SIIDashboard"));
 const SIIIDashboard = lazy(() => import("../components/ssiap-3/SIIIDashboard"));
 
 export const LOGIN_ROUTE = "/login";
-export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
-export const SSIAP_2_DASHBOARD_ROUTE = "/ssiap-2/dashboard";
-export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
 export const UNAUTHORIZED = "/unauthorized";
+// SSIAP 1
+export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
+
+// SSIAP 2
+export const SSIAP_2_DASHBOARD_ROUTE = "/ssiap-2/dashboard";
+export const SSIAP_2_EMPLOYEES_ROUTE = "/ssiap-2/employees";
+export const SSIAP_2_ADD_EMPLOYEE_ROUTE = "/ssiap-2/employees/add";
+
+// SSIAP 3
+export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
 export const SSIAP_3_ATTENDANCE_ROUTE = "/ssiap-3/attendance";
 export const SSIAP_3_EMPLOYEES_ROUTE = "/ssiap-3/employees";
 export const SSIAP_3_REPLACEMENT_ROUTE = "/ssiap-3/replacement";
 export const SSIAP_3_VACATIONS_ROUTE = "/ssiap-3/vacations";
-export const SSIAP_3_ADD_EMPLOYEE_ROUTE = "/ssiap-3/addEmployee";
+export const SSIAP_3_ADD_EMPLOYEE_ROUTE = "/ssiap-3/employees/add";
 
 export const routes = createBrowserRouter([
   {
@@ -61,6 +70,22 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <SIIDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_EMPLOYEES_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <EmployeesListII />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_ADD_EMPLOYEE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <AddEmployeeFormII />
           </ProtectedRoute>
         ),
       },
@@ -113,7 +138,7 @@ export const routes = createBrowserRouter([
         path: SSIAP_3_ADD_EMPLOYEE_ROUTE,
         element: (
           <ProtectedRoute requiredLevel={3}>
-            <AddEmployee />
+            <AddEmployeeForm />
           </ProtectedRoute>
         ),
       },

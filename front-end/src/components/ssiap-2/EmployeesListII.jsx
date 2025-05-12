@@ -10,11 +10,9 @@ import {
 } from "lucide-react";
 import SsiApi from "../../services/api/SsiApi";
 import { Link } from "react-router-dom";
-import {
-  SSIAP_3_ADD_EMPLOYEE_ROUTE,
-} from "../../routes";
+import { SSIAP_2_ADD_EMPLOYEE_ROUTE } from "../../routes";
 
-const EmployeesList = () => {
+const EmployeesListII = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -103,7 +101,7 @@ const EmployeesList = () => {
 
   return (
     <div className="min-h-screen bg-white px-6 py-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
         <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
@@ -156,42 +154,11 @@ const EmployeesList = () => {
             ></div>
           </div>
         </div>
-
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                SSIAP2 Certified
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.ssiap2Count}
-              </p>
-            </div>
-            <div className="p-3 rounded-lg bg-blue-50">
-              <Shield className="h-5 w-5 text-blue-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-500 rounded-full"
-              style={{
-                width: `${
-                  pagination.total > 0
-                    ? Math.min(
-                        100,
-                        (pagination.ssiap2Count / pagination.total) * 100
-                      )
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
       </div>
 
       <div className="flex justify-end mb-4">
         <Link
-          to={SSIAP_3_ADD_EMPLOYEE_ROUTE}
+          to={SSIAP_2_ADD_EMPLOYEE_ROUTE}
           className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer  border-0 outline-0 inline-flex justify-center align-center"
         >
           <UserPlus className="h-4 w-4 mr-2" />
@@ -325,4 +292,4 @@ const EmployeesList = () => {
   );
 };
 
-export default EmployeesList;
+export default EmployeesListII;

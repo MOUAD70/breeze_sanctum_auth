@@ -38,12 +38,12 @@ const SISideBar = () => {
         ],
       },
       {
-        title: "Report Incident",
+        title: "Incidents",
         url: "#",
         icon: MessageCircleWarning,
         items: [
           {
-            title: "General",
+            title: "Incidents Details",
             url: "#",
           },
         ],

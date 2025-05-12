@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import { SSIAP_2_DASHBOARD_ROUTE, SSIAP_2_EMPLOYEES_ROUTE } from "../../routes";
 const SIISideBar = () => {
   const data = {
     navMain: [
@@ -24,7 +25,7 @@ const SIISideBar = () => {
         items: [
           {
             title: "Overview",
-            url: "#",
+            url: SSIAP_2_DASHBOARD_ROUTE,
           },
         ],
       },
@@ -50,7 +51,7 @@ const SIISideBar = () => {
         items: [
           {
             title: "Employees list",
-            url: "#",
+            url: SSIAP_2_EMPLOYEES_ROUTE,
           },
           {
             title: "Vacations Request",
