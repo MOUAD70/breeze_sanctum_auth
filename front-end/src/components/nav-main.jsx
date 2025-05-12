@@ -22,7 +22,10 @@ import { Link } from "react-router-dom";
 export function NavMain({ items }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-lg mb-4 flex align-center justify-center"><span className="text-sky-800">Fire</span><span className="text-yellow-400">Guard</span></SidebarGroupLabel>
+      <SidebarGroupLabel className="text-lg mb-4 flex align-center justify-center">
+        <span className="text-sky-800">Fire</span>
+        <span className="text-yellow-400">Guard</span>
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -32,7 +35,10 @@ export function NavMain({ items }) {
             className="group/collapsible"
           >
             <SidebarMenuItem>
-              <CollapsibleTrigger className="bg-gradient-to-r from-sky-100 to-sky-50 cursor-pointer" asChild>
+              <CollapsibleTrigger
+                className="bg-gradient-to-r from-sky-100 to-sky-50 cursor-pointer"
+                asChild
+              >
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
@@ -42,7 +48,7 @@ export function NavMain({ items }) {
               <CollapsibleContent className="bg-gradient-to-r from-sky-100 to-sky-50">
                 <SidebarMenuSub className="bg-gradient-to-r from-sky-100 to-sky-50 border-0">
                   {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem  key={subItem.title}>
+                    <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <Link className="hover:bg-sky-100" to={subItem.url}>
                           <span>{subItem.title}</span>

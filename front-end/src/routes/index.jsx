@@ -6,6 +6,7 @@ import GuestLayout from "../layouts/GuestLayout";
 import Unauthorized from "../pages/errors/Unauthorized";
 import SIIIAttendance from "../components/ssiap-3/SIIIAttendance";
 import EmployeesList from "../components/ssiap-3/EmployeesList";
+import AddEmployee from "../components/ssiap-3/AddEmployee";
 import Replacement from "../components/ssiap-3/Replacement";
 import Vacations from "../components/ssiap-3/Vacations";
 
@@ -28,6 +29,7 @@ export const SSIAP_3_ATTENDANCE_ROUTE = "/ssiap-3/attendance";
 export const SSIAP_3_EMPLOYEES_ROUTE = "/ssiap-3/employees";
 export const SSIAP_3_REPLACEMENT_ROUTE = "/ssiap-3/replacement";
 export const SSIAP_3_VACATIONS_ROUTE = "/ssiap-3/vacations";
+export const SSIAP_3_ADD_EMPLOYEE_ROUTE = "/ssiap-3/addEmployee";
 
 export const routes = createBrowserRouter([
   {
@@ -104,6 +106,14 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={3}>
             <Vacations />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_ADD_EMPLOYEE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <AddEmployee />
           </ProtectedRoute>
         ),
       },

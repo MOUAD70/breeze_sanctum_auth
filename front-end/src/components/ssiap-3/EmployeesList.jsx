@@ -1,10 +1,24 @@
-import { User, Shield, Mail, Phone, BadgeCheck, MoreVertical, Search, Filter, Plus } from "lucide-react";
+import {
+  User,
+  Shield,
+  Mail,
+  Phone,
+  BadgeCheck,
+  MoreVertical,
+  Search,
+  Filter,
+  Plus,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { SSIAP_3_ADD_EMPLOYEE_ROUTE } from "../../routes";
 
 const EmployeesList = () => {
   return (
     <div className="min-h-screen bg-white px-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">SSIAP Personnel Management</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          SSIAP Personnel Management
+        </h1>
         <p className="text-gray-500">All registered security personnel</p>
       </div>
 
@@ -22,10 +36,13 @@ const EmployeesList = () => {
             <Filter className="h-4 w-4" />
             Filters
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-sky-800 text-white hover:bg-sky-900 cursor-pointer rounded-4xl font-semibold">
+          <Link
+            to={SSIAP_3_ADD_EMPLOYEE_ROUTE}
+            className="flex items-center gap-2 px-4 py-2 bg-sky-800 text-white hover:bg-sky-900 cursor-pointer rounded-4xl font-semibold"
+          >
             <Plus className="h-4 w-4" />
             Add Employee
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -53,59 +70,67 @@ const EmployeesList = () => {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certification</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Employee
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Contact
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Certification
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {[
-                { 
-                  id: 'SSIAP-001', 
-                  name: 'Jean Dupont', 
-                  email: 'j.dupont@ssiap.fr', 
-                  phone: '+33 6 12 34 56 78',
-                  certification: 'SSIAP1',
-                  status: 'Active',
-                  since: '2021-03-15'
+                {
+                  id: "SSIAP-001",
+                  name: "Jean Dupont",
+                  email: "j.dupont@ssiap.fr",
+                  phone: "+33 6 12 34 56 78",
+                  certification: "SSIAP1",
+                  status: "Active",
+                  since: "2021-03-15",
                 },
-                { 
-                  id: 'SSIAP-002', 
-                  name: 'Marie Lambert', 
-                  email: 'm.lambert@ssiap.fr', 
-                  phone: '+33 6 98 76 54 32',
-                  certification: 'SSIAP2',
-                  status: 'Active',
-                  since: '2020-11-22'
+                {
+                  id: "SSIAP-002",
+                  name: "Marie Lambert",
+                  email: "m.lambert@ssiap.fr",
+                  phone: "+33 6 98 76 54 32",
+                  certification: "SSIAP2",
+                  status: "Active",
+                  since: "2020-11-22",
                 },
-                { 
-                  id: 'SSIAP-003', 
-                  name: 'Pierre Moreau', 
-                  email: 'p.moreau@ssiap.fr', 
-                  phone: '+33 6 45 67 89 01',
-                  certification: 'SSIAP1',
-                  status: 'On Leave',
-                  since: '2022-05-10'
+                {
+                  id: "SSIAP-003",
+                  name: "Pierre Moreau",
+                  email: "p.moreau@ssiap.fr",
+                  phone: "+33 6 45 67 89 01",
+                  certification: "SSIAP1",
+                  status: "On Leave",
+                  since: "2022-05-10",
                 },
-                { 
-                  id: 'SSIAP-004', 
-                  name: 'Sophie Bernard', 
-                  email: 's.bernard@ssiap.fr', 
-                  phone: '+33 6 23 45 67 89',
-                  certification: 'SSIAP3',
-                  status: 'Active',
-                  since: '2019-08-17'
+                {
+                  id: "SSIAP-004",
+                  name: "Sophie Bernard",
+                  email: "s.bernard@ssiap.fr",
+                  phone: "+33 6 23 45 67 89",
+                  certification: "SSIAP3",
+                  status: "Active",
+                  since: "2019-08-17",
                 },
-                { 
-                  id: 'SSIAP-005', 
-                  name: 'Thomas Petit', 
-                  email: 't.petit@ssiap.fr', 
-                  phone: '+33 6 78 90 12 34',
-                  certification: 'SSIAP1',
-                  status: 'Inactive',
-                  since: '2023-01-05'
+                {
+                  id: "SSIAP-005",
+                  name: "Thomas Petit",
+                  email: "t.petit@ssiap.fr",
+                  phone: "+33 6 78 90 12 34",
+                  certification: "SSIAP1",
+                  status: "Inactive",
+                  since: "2023-01-05",
                 },
               ].map((employee) => (
                 <tr key={employee.id} className="hover:bg-gray-50">
@@ -115,8 +140,12 @@ const EmployeesList = () => {
                         <User className="h-5 w-5 text-sky-900" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{employee.name}</div>
-                        <div className="text-sm text-gray-500">{employee.id}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {employee.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {employee.id}
+                        </div>
                       </div>
                     </div>
                   </td>
@@ -132,22 +161,34 @@ const EmployeesList = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <Shield className={`h-4 w-4 mr-2 ${
-                        employee.certification === 'SSIAP1' ? 'text-sky-600' :
-                        employee.certification === 'SSIAP2' ? 'text-blue-600' :
-                        'text-emerald-600'
-                      }`} />
-                      <span className="text-sm text-gray-900">{employee.certification}</span>
+                      <Shield
+                        className={`h-4 w-4 mr-2 ${
+                          employee.certification === "SSIAP1"
+                            ? "text-sky-600"
+                            : employee.certification === "SSIAP2"
+                            ? "text-blue-600"
+                            : "text-emerald-600"
+                        }`}
+                      />
+                      <span className="text-sm text-gray-900">
+                        {employee.certification}
+                      </span>
                       <BadgeCheck className="h-4 w-4 ml-2 text-green-500" />
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">Since {employee.since}</div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      Since {employee.since}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      employee.status === 'Active' ? 'bg-green-100 text-green-800' :
-                      employee.status === 'On Leave' ? 'bg-amber-100 text-amber-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        employee.status === "Active"
+                          ? "bg-green-100 text-green-800"
+                          : employee.status === "On Leave"
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
                       {employee.status}
                     </span>
                   </td>
@@ -165,7 +206,9 @@ const EmployeesList = () => {
 
       <div className="mt-6 flex items-center justify-between">
         <div className="text-sm text-gray-500">
-          Showing <span className="font-medium">1</span> to <span className="font-medium">5</span> of <span className="font-medium">42</span> employees
+          Showing <span className="font-medium">1</span> to{" "}
+          <span className="font-medium">5</span> of{" "}
+          <span className="font-medium">42</span> employees
         </div>
         <div className="flex space-x-2">
           <button className="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">

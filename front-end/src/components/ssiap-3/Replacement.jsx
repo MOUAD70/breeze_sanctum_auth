@@ -1,11 +1,24 @@
-import { User, Shield, Clock, RefreshCw, CheckCircle2, XCircle, Search, Filter, Plus, MoreVertical } from "lucide-react";
+import {
+  User,
+  Shield,
+  Clock,
+  RefreshCw,
+  CheckCircle2,
+  XCircle,
+  Search,
+  Filter,
+  Plus,
+  MoreVertical,
+} from "lucide-react";
 
 const Replacement = () => {
   return (
     <div className="min-h-screen bg-white px-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">SSIAP Replacement Management</h1>
+        <h1 className="text-2xl font-bold text-gray-800">
+          SSIAP Replacement Management
+        </h1>
         <p className="text-gray-500">Manage and track personnel replacements</p>
       </div>
 
@@ -54,7 +67,10 @@ const Replacement = () => {
       {/* Date Filter */}
       <div className="mb-6 bg-white p-4 rounded-lg border border-gray-200">
         <div className="flex items-center justify-between">
-          <h2 className="font-medium text-gray-700">Showing replacements for: <span className="font-semibold">Next 7 days</span></h2>
+          <h2 className="font-medium text-gray-700">
+            Showing replacements for:{" "}
+            <span className="font-semibold">Next 7 days</span>
+          </h2>
           <div className="flex gap-2">
             <button className="px-3 py-1 border border-gray-300 rounded-4xl text-gray-700 hover:bg-gray-50 cursor-pointer">
               Previous
@@ -75,54 +91,92 @@ const Replacement = () => {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Original Staff</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Replacement</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Shift Details</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Original Staff
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Replacement
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Shift Details
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {[
-                { 
-                  id: 'REP-001',
-                  original: { name: 'Jean Dupont', id: 'SSIAP-001', role: 'SSIAP1' },
-                  replacement: { name: 'Marie Lambert', id: 'SSIAP-002', role: 'SSIAP2' },
-                  date: '2023-05-20',
-                  shift: '08:00 - 20:00',
-                  reason: 'Medical leave',
-                  status: 'Approved',
-                  requested: '2023-05-15'
+                {
+                  id: "REP-001",
+                  original: {
+                    name: "Jean Dupont",
+                    id: "SSIAP-001",
+                    role: "SSIAP1",
+                  },
+                  replacement: {
+                    name: "Marie Lambert",
+                    id: "SSIAP-002",
+                    role: "SSIAP2",
+                  },
+                  date: "2023-05-20",
+                  shift: "08:00 - 20:00",
+                  reason: "Medical leave",
+                  status: "Approved",
+                  requested: "2023-05-15",
                 },
-                { 
-                  id: 'REP-002',
-                  original: { name: 'Pierre Moreau', id: 'SSIAP-003', role: 'SSIAP1' },
-                  replacement: { name: 'Thomas Petit', id: 'SSIAP-005', role: 'SSIAP1' },
-                  date: '2023-05-21',
-                  shift: '20:00 - 08:00',
-                  reason: 'Training',
-                  status: 'Pending',
-                  requested: '2023-05-18'
+                {
+                  id: "REP-002",
+                  original: {
+                    name: "Pierre Moreau",
+                    id: "SSIAP-003",
+                    role: "SSIAP1",
+                  },
+                  replacement: {
+                    name: "Thomas Petit",
+                    id: "SSIAP-005",
+                    role: "SSIAP1",
+                  },
+                  date: "2023-05-21",
+                  shift: "20:00 - 08:00",
+                  reason: "Training",
+                  status: "Pending",
+                  requested: "2023-05-18",
                 },
-                { 
-                  id: 'REP-003',
-                  original: { name: 'Sophie Bernard', id: 'SSIAP-004', role: 'SSIAP3' },
+                {
+                  id: "REP-003",
+                  original: {
+                    name: "Sophie Bernard",
+                    id: "SSIAP-004",
+                    role: "SSIAP3",
+                  },
                   replacement: null,
-                  date: '2023-05-22',
-                  shift: '08:00 - 20:00',
-                  reason: 'Vacation',
-                  status: 'Needs Replacement',
-                  requested: '2023-05-10'
+                  date: "2023-05-22",
+                  shift: "08:00 - 20:00",
+                  reason: "Vacation",
+                  status: "Needs Replacement",
+                  requested: "2023-05-10",
                 },
-                { 
-                  id: 'REP-004',
-                  original: { name: 'Thomas Petit', id: 'SSIAP-005', role: 'SSIAP1' },
-                  replacement: { name: 'Jean Dupont', id: 'SSIAP-001', role: 'SSIAP1' },
-                  date: '2023-05-19',
-                  shift: '20:00 - 08:00',
-                  reason: 'Personal',
-                  status: 'Completed',
-                  requested: '2023-05-12'
+                {
+                  id: "REP-004",
+                  original: {
+                    name: "Thomas Petit",
+                    id: "SSIAP-005",
+                    role: "SSIAP1",
+                  },
+                  replacement: {
+                    name: "Jean Dupont",
+                    id: "SSIAP-001",
+                    role: "SSIAP1",
+                  },
+                  date: "2023-05-19",
+                  shift: "20:00 - 08:00",
+                  reason: "Personal",
+                  status: "Completed",
+                  requested: "2023-05-12",
                 },
               ].map((replacement) => (
                 <tr key={replacement.id} className="hover:bg-gray-50">
@@ -133,8 +187,12 @@ const Replacement = () => {
                         <User className="h-5 w-5 text-sky-900" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{replacement.original.name}</div>
-                        <div className="text-sm text-gray-500">{replacement.original.id}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {replacement.original.name}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {replacement.original.id}
+                        </div>
                         <div className="text-xs text-gray-400 mt-1 flex items-center">
                           <Shield className="h-3 w-3 mr-1" />
                           {replacement.original.role}
@@ -151,8 +209,12 @@ const Replacement = () => {
                           <User className="h-5 w-5 text-green-900" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{replacement.replacement.name}</div>
-                          <div className="text-sm text-gray-500">{replacement.replacement.id}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {replacement.replacement.name}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {replacement.replacement.id}
+                          </div>
                           <div className="text-xs text-gray-400 mt-1 flex items-center">
                             <Shield className="h-3 w-3 mr-1" />
                             {replacement.replacement.role}
@@ -160,7 +222,9 @@ const Replacement = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className="text-sm text-gray-500 italic">Not assigned</div>
+                      <div className="text-sm text-gray-500 italic">
+                        Not assigned
+                      </div>
                     )}
                   </td>
 
@@ -180,17 +244,22 @@ const Replacement = () => {
 
                   {/* Status */}
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      replacement.status === 'Approved' ? 'bg-green-100 text-green-800' :
-                      replacement.status === 'Pending' ? 'bg-amber-100 text-amber-800' :
-                      replacement.status === 'Completed' ? 'bg-blue-100 text-blue-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {replacement.status === 'Approved' ? (
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        replacement.status === "Approved"
+                          ? "bg-green-100 text-green-800"
+                          : replacement.status === "Pending"
+                          ? "bg-amber-100 text-amber-800"
+                          : replacement.status === "Completed"
+                          ? "bg-blue-100 text-blue-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {replacement.status === "Approved" ? (
                         <CheckCircle2 className="h-3 w-3 inline mr-1 mt-1" />
-                      ) : replacement.status === 'Pending' ? (
+                      ) : replacement.status === "Pending" ? (
                         <RefreshCw className="h-3 w-3 inline mr-1 mt-1" />
-                      ) : replacement.status === 'Needs Replacement' ? (
+                      ) : replacement.status === "Needs Replacement" ? (
                         <XCircle className="h-3 w-3 inline mr-1 mt-1" />
                       ) : null}
                       {replacement.status}
@@ -203,12 +272,12 @@ const Replacement = () => {
                   {/* Actions */}
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
-                      {replacement.status === 'Pending' && (
+                      {replacement.status === "Pending" && (
                         <button className="text-xs bg-sky-800 text-white px-3 py-1 rounded-4xl hover:bg-sky-900">
                           Approve
                         </button>
                       )}
-                      {replacement.status === 'Needs Replacement' && (
+                      {replacement.status === "Needs Replacement" && (
                         <button className="text-xs bg-purple-800 text-white px-3 py-1 rounded-4xl hover:bg-purple-900">
                           Assign
                         </button>
@@ -228,7 +297,9 @@ const Replacement = () => {
       {/* Pagination */}
       <div className="mt-6 flex items-center justify-between">
         <div className="text-sm text-gray-500">
-          Showing <span className="font-medium">1</span> to <span className="font-medium">4</span> of <span className="font-medium">16</span> replacements
+          Showing <span className="font-medium">1</span> to{" "}
+          <span className="font-medium">4</span> of{" "}
+          <span className="font-medium">16</span> replacements
         </div>
         <div className="flex space-x-2">
           <button className="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">

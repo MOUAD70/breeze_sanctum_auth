@@ -5,11 +5,55 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+  LayoutDashboard,
+  MessageCircleWarning,
+  ScanSearch,
+} from "lucide-react";
 import { Outlet } from "react-router-dom";
 const SISideBar = () => {
+  const data = {
+    navMain: [
+      {
+        title: "Dashboard",
+        url: "#",
+        icon: LayoutDashboard,
+        isActive: true,
+        items: [
+          {
+            title: "Overview",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Attendance",
+        url: "#",
+        icon: ScanSearch,
+        items: [
+          {
+            title: "Mark Your Attendance",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Report Incident",
+        url: "#",
+        icon: MessageCircleWarning,
+        items: [
+          {
+            title: "General",
+            url: "#",
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar data={data} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
