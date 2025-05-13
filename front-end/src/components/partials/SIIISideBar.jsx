@@ -9,7 +9,6 @@ import { Outlet } from "react-router-dom";
 import {
   CalendarClock,
   LayoutDashboard,
-  MapPinHouse,
   MessageCircleWarning,
   Users,
   ScanSearch,

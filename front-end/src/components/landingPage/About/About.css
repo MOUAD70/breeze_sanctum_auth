@@ -35,3 +35,60 @@
     color: #676767;
     margin-bottom: 15px;
 }
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .container {
+        padding: 0px 5% 0px 5%;
+    }
+    
+    .about {
+        width: 95%;
+    }
+    
+    .about h2 {
+        font-size: 30px;
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .about {
+        flex-direction: column;
+        margin: 60px auto;
+        gap: 30px;
+    }
+    
+    .about-left {
+        flex-basis: 100%;
+        width: 100%;
+    }
+    
+    .about-right {
+        flex-basis: 100%;
+        width: 100%;
+    }
+    
+    .about h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+    
+    .about p {
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0px 3% 0px 3%;
+    }
+    
+    .about {
+        margin: 40px auto;
+    }
+    
+    .about h2 {
+        font-size: 24px;
+    }
+}

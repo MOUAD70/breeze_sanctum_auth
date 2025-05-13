@@ -19,6 +19,7 @@
     border-radius: 50%;
     cursor: pointer;
     background-color: #0C4A6E;
+    transition: all 0.3s ease;
 }
 
 .back-btn {
@@ -26,9 +27,14 @@
     left: 0;
 }
 
+.next-btn:hover,
+.back-btn:hover {
+    background-color: #075985;
+    transform: translateY(-50%) scale(1.05);
+}
+
 .slider {
     overflow: hidden;
-
 }
 
 .slider ul {
@@ -50,6 +56,9 @@
     border-radius: 10px;
     color: #676767;
     line-height: 1.4;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .slide img {
@@ -64,4 +73,145 @@
     align-items: center;
     margin-bottom: 20px;
     font-size: 15px;
+}
+
+.user-info h3 {
+    font-weight: 600;
+    color: #0C4A6E;
+    margin-bottom: 4px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1200px) {
+    .container {
+        padding: 0px 7% 0px 7%;
+    }
+    
+    .testimonials {
+        padding: 0 70px;
+    }
+    
+    .slide {
+        padding: 35px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        padding: 0px 5% 0px 5%;
+    }
+    
+    .testimonials {
+        padding: 0 60px;
+        margin: 70px auto;
+    }
+    
+    .slide {
+        padding: 30px;
+    }
+    
+    .next-btn,
+    .back-btn {
+        padding: 13px;
+        width: 45px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .testimonials {
+        padding: 0 50px;
+        margin: 60px auto;
+    }
+    
+    .next-btn,
+    .back-btn {
+        padding: 12px;
+        width: 40px;
+    }
+    
+    .slide {
+        padding: 25px;
+    }
+    
+    .slider ul li {
+        padding: 15px;
+    }
+    
+    .user-info {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .testimonials {
+        padding: 0 45px;
+        margin: 50px auto;
+    }
+    
+    .next-btn,
+    .back-btn {
+        padding: 11px;
+        width: 38px;
+    }
+    
+    .slide {
+        padding: 22px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0px 3% 0px 3%;
+    }
+    
+    .testimonials {
+        padding: 0 40px;
+        margin: 40px auto;
+    }
+    
+    .next-btn,
+    .back-btn {
+        padding: 10px;
+        width: 35px;
+    }
+    
+    .slide {
+        padding: 20px;
+    }
+    
+    .user-info {
+        font-size: 14px;
+    }
+    
+    .slide img {
+        width: 50px;
+    }
+    
+    .slider ul li {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .testimonials {
+        padding: 0 35px;
+    }
+    
+    .next-btn,
+    .back-btn {
+        padding: 8px;
+        width: 30px;
+    }
+    
+    .slide {
+        padding: 18px;
+    }
+    
+    .user-info {
+        font-size: 13px;
+    }
+    
+    .slide img {
+        width: 45px;
+    }
 }

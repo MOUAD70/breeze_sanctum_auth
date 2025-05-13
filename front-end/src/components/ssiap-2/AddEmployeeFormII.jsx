@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,7 +30,9 @@ import {
   Lock,
   Shield,
   Building,
+  ArrowLeft,
 } from "lucide-react";
+import { SSIAP_2_EMPLOYEES_ROUTE } from "../../routes";
 
 // Define the form schema with Zod
 const formSchema = z
@@ -401,7 +403,15 @@ const AddEmployeeFormII = () => {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
+            <Link
+              to={SSIAP_2_EMPLOYEES_ROUTE}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>Back to Employees</span>
+            </Link>
+
             <Button
               type="submit"
               disabled={

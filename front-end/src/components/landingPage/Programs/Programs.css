@@ -55,3 +55,46 @@
     opacity: 1;
     padding-top: 0;
 }
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+    .container {
+        padding: 0px 5% 0px 5%;
+    }
+    
+    .programs {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .programs {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .program {
+        flex-basis: 100%;
+        width: 100%;
+    }
+    
+    .caption {
+        opacity: 0.9;
+        padding-top: 0;
+        background: linear-gradient(rgba(12, 74, 110, 0.7), rgba(15, 94, 139, 0.7));
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 0px 3% 0px 3%;
+    }
+    
+    .programs {
+        margin: 40px auto;
+    }
+    
+    .caption p {
+        font-size: 14px;
+    }
+}
