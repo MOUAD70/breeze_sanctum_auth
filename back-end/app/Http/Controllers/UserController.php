@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -98,7 +99,41 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $currentUser = Auth::user();
+
+        // Check if the current user has permission to view this user
+        if ($currentUser->ssiap_level === 1) {
+            // SSIAP1 users can only view themselves
+            if ($currentUser->id !== $user->id) {
+                return response()->json([
+                    'message' => 'Unauthorized to view this user'
+                ], 403);
+            }
+        } else if ($currentUser->ssiap_level === 2) {
+            // SSIAP2 users can only view SSIAP1 users from their site and themselves
+            if (
+                $currentUser->id !== $user->id &&
+                ($user->ssiap_level !== 1 || $user->site_id !== $currentUser->site_id)
+            ) {
+                return response()->json([
+                    'message' => 'Unauthorized to view this user'
+                ], 403);
+            }
+        } else if ($currentUser->ssiap_level === 3) {
+            // SSIAP3 users can view all users except other SSIAP3 users
+            if ($user->ssiap_level === 3 && $currentUser->id !== $user->id) {
+                return response()->json([
+                    'message' => 'Unauthorized to view this user'
+                ], 403);
+            }
+        }
+
+        // Load the site relationship if it exists
+        if ($user->site_id) {
+            $user->load('site');
+        }
+
+        return new UserResource($user);
     }
 
     /**
@@ -106,7 +141,90 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $currentUser = Auth::user();
+        $formfields = $request->validated();
+
+        // Debug log with more details
+        Log::info('Update request received', [
+            'user_id' => $user->id,
+            'data' => $formfields,
+            'current_user' => $currentUser->id,
+            'current_user_level' => $currentUser->ssiap_level,
+            'request_all' => $request->all() // Log all request data
+        ]);
+
+        if ($currentUser->ssiap_level === 1) {
+            return response()->json([
+                'message' => 'Unauthorized to update users'
+            ], 403);
+        }
+
+        if ($currentUser->ssiap_level === 2) {
+            if ($user->ssiap_level !== 1 || $user->site_id !== $currentUser->site_id) {
+                return response()->json([
+                    'message' => 'You can only update SSIAP1 users from your site'
+                ], 403);
+            }
+
+            // SSIAP2 users cannot change site_id or ssiap_level
+            if (isset($formfields['site_id'])) {
+                unset($formfields['site_id']);
+            }
+
+            if (isset($formfields['ssiap_level'])) {
+                unset($formfields['ssiap_level']);
+            }
+        }
+
+        if ($currentUser->ssiap_level === 3) {
+            if ($user->ssiap_level === 3) {
+                return response()->json([
+                    'message' => 'You cannot update SSIAP3 users'
+                ], 403);
+            }
+
+            if (isset($formfields['ssiap_level']) && $formfields['ssiap_level'] > 2) {
+                return response()->json([
+                    'message' => 'Cannot promote users to SSIAP3 level'
+                ], 400);
+            }
+        }
+
+        // Debug log before update
+        Log::info('About to update user', [
+            'user_id' => $user->id,
+            'data_after_filtering' => $formfields,
+            'user_before_update' => $user->toArray()
+        ]);
+
+        // Check if formfields is empty
+        if (empty($formfields)) {
+            Log::warning('No validated fields to update');
+            return response()->json([
+                'message' => 'No fields to update',
+                'user' => $user
+            ]);
+        }
+
+        // Perform the update with direct DB query to verify
+        $updated = $user->update($formfields);
+
+        // Force refresh from database
+        $user->refresh();
+
+        // Debug log after update
+        Log::info('User update attempt', [
+            'user_id' => $user->id,
+            'update_success' => $updated,
+            'updated_user' => $user->toArray()
+        ]);
+
+        return response()->json([
+            'message' => 'User updated successfully',
+            'user' => $user,
+            'updated' => $updated,
+            'fields_updated' => $formfields
+        ]);
     }
 
     /**
@@ -114,6 +232,34 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $currentUser = Auth::user();
+
+        if ($currentUser->ssiap_level === 1) {
+            return response()->json([
+                'message' => 'Unauthorized to delete users'
+            ], 403);
+        }
+
+        if ($currentUser->ssiap_level === 2) {
+            if ($user->ssiap_level !== 1 || $user->site_id !== $currentUser->site_id) {
+                return response()->json([
+                    'message' => 'You can only delete SSIAP1 users from your site'
+                ], 403);
+            }
+        }
+
+        if ($currentUser->ssiap_level === 3) {
+            if ($user->ssiap_level === 3) {
+                return response()->json([
+                    'message' => 'You cannot delete SSIAP3 users'
+                ], 403);
+            }
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User deleted successfully'
+        ]);
     }
 }

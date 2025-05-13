@@ -36,17 +36,6 @@ const SIIISideBar = () => {
         ],
       },
       {
-        title: "Attendance",
-        url: "#",
-        icon: ScanSearch,
-        items: [
-          {
-            title: "Today's Attendance",
-            url: SSIAP_3_ATTENDANCE_ROUTE,
-          },
-        ],
-      },
-      {
         title: "Employees",
         url: "#",
         icon: Users,
@@ -63,6 +52,17 @@ const SIIISideBar = () => {
           {
             title: "Manage Replacements",
             url: SSIAP_3_REPLACEMENT_ROUTE,
+          },
+        ],
+      },
+      {
+        title: "Attendance",
+        url: "#",
+        icon: ScanSearch,
+        items: [
+          {
+            title: "Today's Attendance",
+            url: SSIAP_3_ATTENDANCE_ROUTE,
           },
         ],
       },

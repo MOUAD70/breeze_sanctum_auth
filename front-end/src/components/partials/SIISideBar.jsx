@@ -30,21 +30,6 @@ const SIISideBar = () => {
         ],
       },
       {
-        title: "Attendance",
-        url: "#",
-        icon: ScanSearch,
-        items: [
-          {
-            title: "Today's Attendance",
-            url: "#",
-          },
-          {
-            title: "Mark Your Attendance",
-            url: "#",
-          },
-        ],
-      },
-      {
         title: "Employees",
         url: "#",
         icon: Users,
@@ -59,6 +44,21 @@ const SIISideBar = () => {
           },
           {
             title: "Manage Replacements",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Attendance",
+        url: "#",
+        icon: ScanSearch,
+        items: [
+          {
+            title: "Today's Attendance",
+            url: "#",
+          },
+          {
+            title: "Mark Your Attendance",
             url: "#",
           },
         ],

@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import SsiApi from "../../services/api/SsiApi";
-import { useUserContext } from "../../context/UserContext";
+import SsiApi from "../../../services/api/SsiApi";
+import { useUserContext } from "../../../context/UserContext";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -32,7 +32,7 @@ import {
   Building,
   ArrowLeft,
 } from "lucide-react";
-import { SSIAP_2_EMPLOYEES_ROUTE } from "../../routes";
+import { SSIAP_3_EMPLOYEES_ROUTE } from "../../../routes";
 
 // Define the form schema with Zod
 const formSchema = z
@@ -52,7 +52,7 @@ const formSchema = z
     path: ["password_confirmation"],
   });
 
-const AddEmployeeFormII = () => {
+const AddEmployeeForm = () => {
   const navigate = useNavigate();
   const { user: currentUser } = useUserContext();
   const [sites, setSites] = useState([]);
@@ -114,12 +114,11 @@ const AddEmployeeFormII = () => {
 
     try {
       await SsiApi.addUser(data);
-      navigate("/employees");
+      navigate(SSIAP_3_EMPLOYEES_ROUTE);
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || "Failed to create employee";
 
-      // Handle validation errors from the server
       if (err.response?.data?.errors) {
         const errors = err.response.data.errors;
         Object.keys(errors).forEach((key) => {
@@ -146,6 +145,14 @@ const AddEmployeeFormII = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
+      {/* Back button */}
+      <Link
+        to={SSIAP_3_EMPLOYEES_ROUTE}
+        className="fixed bottom-6 left-6 bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full shadow-md transition-colors duration-200"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </Link>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -279,79 +286,6 @@ const AddEmployeeFormII = () => {
                 />
               )}
 
-              {currentUser.ssiap_level === 3 ? (
-                <FormField
-                  control={form.control}
-                  name="site_id"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-700 font-medium text-sm">
-                        Site
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative group">
-                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
-                          {loadingSites ? (
-                            <div className="bg-white border-gray-300 h-11 text-gray-500 rounded-lg pl-10 flex items-center">
-                              <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                              Loading sites...
-                            </div>
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={
-                                field.value ? String(field.value) : ""
-                              }
-                            >
-                              <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
-                                <SelectValue placeholder="Select a site" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {sites.map((site) => (
-                                  <SelectItem
-                                    key={site.id}
-                                    value={String(site.id)}
-                                  >
-                                    {site.site_name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-xs text-red-500" />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                currentUser.ssiap_level === 2 && (
-                  <FormField
-                    control={form.control}
-                    name="site_id"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-medium text-sm">
-                          Site
-                        </FormLabel>
-                        <FormControl>
-                          <div className="relative group">
-                            <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                            <Input
-                              type="text"
-                              value={currentUser.site?.site_name || "Your site"}
-                              className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 bg-gray-100"
-                              readOnly
-                            />
-                            <input type="hidden" {...field} />
-                          </div>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                )
-              )}
-
               <FormField
                 control={form.control}
                 name="password"
@@ -399,14 +333,86 @@ const AddEmployeeFormII = () => {
                   </FormItem>
                 )}
               />
+
+              {currentUser.ssiap_level === 3 && (
+                <FormField
+                  control={form.control}
+                  name="site_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium text-sm">
+                        Site
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative group">
+                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
+                          {loadingSites ? (
+                            <div className="bg-white border-gray-300 h-11 text-gray-500 rounded-lg pl-10 flex items-center">
+                              <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                              Loading sites...
+                            </div>
+                          ) : (
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={
+                                field.value ? String(field.value) : ""
+                              }
+                            >
+                              <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                                <SelectValue placeholder="Select a site" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {sites.map((site) => (
+                                  <SelectItem
+                                    key={site.id}
+                                    value={String(site.id)}
+                                  >
+                                    {site.site_name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs text-red-500" />
+                    </FormItem>
+                  )}
+                />
+              )}
+
+              {currentUser.ssiap_level === 2 && (
+                <FormField
+                  control={form.control}
+                  name="site_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium text-sm">
+                        Site
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative group">
+                          <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Input
+                            type="text"
+                            value={currentUser.site?.site_name || "Your site"}
+                            className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 bg-gray-100"
+                            readOnly
+                          />
+                          <input type="hidden" {...field} />
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
           </div>
-
           {/* Footer */}
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
             <Link
-              to={SSIAP_2_EMPLOYEES_ROUTE}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors"
+              to={SSIAP_3_EMPLOYEES_ROUTE}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-4xl transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>Back to Employees</span>
@@ -417,7 +423,7 @@ const AddEmployeeFormII = () => {
               disabled={
                 submitting || (currentUser.ssiap_level === 3 && loadingSites)
               }
-              className="text-white h-11 px-8 border hover:bg-sky-950 hover:border-sky-950 bg-sky-900 border-sky-900 hover:text-white font-medium rounded-lg transition-colors duration-200 cursor-pointer"
+              className="text-white h-11 px-8 border hover:bg-sky-950 hover:border-sky-950 bg-sky-900 border-sky-900 hover:text-white font-medium rounded-4xl transition-colors duration-200 cursor-pointer"
             >
               {submitting ? (
                 <>
@@ -435,4 +441,4 @@ const AddEmployeeFormII = () => {
   );
 };
 
-export default AddEmployeeFormII;
+export default AddEmployeeForm;

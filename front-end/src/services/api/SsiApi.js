@@ -1,6 +1,7 @@
 import { axiosClient } from "../../api/axios";
 
 const SsiApi = {
+  // Auth API
   login: async (email, password) => {
     return await axiosClient.post("/api/login", { email, password });
   },
@@ -12,19 +13,29 @@ const SsiApi = {
   },
 
   // Users CRUD API
+  getOneUser: async (id) => {
+    return axiosClient.get(`/api/users/${id}`);
+  },
   getAllUsers: async (params = {}) => {
     return axiosClient.get("/api/users", { params });
   },
   addUser: async (userData) => {
     return axiosClient.post("/api/users", userData);
   },
+  updateUser: (id, userData) => {
+    console.log("API updateUser called with:", id, userData); 
+    return axiosClient.put(`/api/users/${id}`, userData);
+  },
+  deleteUser: async (id) => {
+    return axiosClient.delete(`/api/users/${id}`);
+  },
 
   // Sites CRUD API
+  getOneSite: async (id) => {
+    return axiosClient.get(`/api/sites/${id}`);
+  },
   getSites: async () => {
     return axiosClient.get("/api/sites");
-  },
-  getSite: async (id) => {
-    return axiosClient.get(`/api/sites/${id}`);
   },
   createSite: async (siteData) => {
     return axiosClient.post("/api/sites", siteData);

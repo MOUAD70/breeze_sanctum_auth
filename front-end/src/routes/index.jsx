@@ -5,12 +5,14 @@ import GlobalLayout from "../layouts/GlobalLayout";
 import GuestLayout from "../layouts/GuestLayout";
 import Unauthorized from "../pages/errors/Unauthorized";
 import SIIIAttendance from "../components/ssiap-3/SIIIAttendance";
-import EmployeesList from "../components/ssiap-3/EmployeesList";
+import EmployeesList from "../components/ssiap-3/ManageEmployees/EmployeesList";
 import Replacement from "../components/ssiap-3/Replacement";
 import Vacations from "../components/ssiap-3/Vacations";
-import EmployeesListII from "../components/ssiap-2/EmployeesListII";
-import AddEmployeeForm from "../components/ssiap-3/AddEmployeeForm";
-import AddEmployeeFormII from "../components/ssiap-2/AddEmployeeFormII";
+import EmployeesListII from "../components/ssiap-2/ManageEmployees/EmployeesListII";
+import AddEmployeeForm from "../components/ssiap-3/ManageEmployees/AddEmployeeForm";
+import AddEmployeeFormII from "../components/ssiap-2/ManageEmployees/AddEmployeeFormII";
+import EditEmployeeForm from "../components/ssiap-3/ManageEmployees/EditEmployeeForm";
+import EditEmployeeFormII from "../components/ssiap-2/ManageEmployees/EditEmployeeFormII";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -31,6 +33,7 @@ export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
 export const SSIAP_2_DASHBOARD_ROUTE = "/ssiap-2/dashboard";
 export const SSIAP_2_EMPLOYEES_ROUTE = "/ssiap-2/employees";
 export const SSIAP_2_ADD_EMPLOYEE_ROUTE = "/ssiap-2/employees/add";
+export const SSIAP_2_EDIT_EMPLOYEE_ROUTE = "/ssiap-2/employees/edit/:id";
 
 // SSIAP 3
 export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
@@ -39,6 +42,7 @@ export const SSIAP_3_EMPLOYEES_ROUTE = "/ssiap-3/employees";
 export const SSIAP_3_REPLACEMENT_ROUTE = "/ssiap-3/replacement";
 export const SSIAP_3_VACATIONS_ROUTE = "/ssiap-3/vacations";
 export const SSIAP_3_ADD_EMPLOYEE_ROUTE = "/ssiap-3/employees/add";
+export const SSIAP_3_EDIT_EMPLOYEE_ROUTE = "/ssiap-3/employees/edit/:id";
 
 export const routes = createBrowserRouter([
   {
@@ -86,6 +90,14 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <AddEmployeeFormII />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_EDIT_EMPLOYEE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <EditEmployeeFormII />
           </ProtectedRoute>
         ),
       },
@@ -139,6 +151,14 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={3}>
             <AddEmployeeForm />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_EDIT_EMPLOYEE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <EditEmployeeForm />
           </ProtectedRoute>
         ),
       },

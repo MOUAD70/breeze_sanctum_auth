@@ -7,14 +7,21 @@ import {
   BadgeCheck,
   MoreVertical,
   UserPlus,
+  Trash2,
+  Pencil,
+  Loader2,
+  AlertCircle,
+  X,
 } from "lucide-react";
-import SsiApi from "../../services/api/SsiApi";
+import SsiApi from "../../../services/api/SsiApi";
 import { Link } from "react-router-dom";
 import {
-  SSIAP_3_ADD_EMPLOYEE_ROUTE,
-} from "../../routes";
+  SSIAP_2_ADD_EMPLOYEE_ROUTE,
+  SSIAP_2_EDIT_EMPLOYEE_ROUTE,
+} from "../../../routes";
+import { useUserContext } from "../../../context/UserContext";
 
-const EmployeesList = () => {
+const EmployeesListII = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,6 +34,11 @@ const EmployeesList = () => {
     ssiap1Count: 0,
     ssiap2Count: 0,
   });
+  const { user: currentUser } = useUserContext();
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, id: null });
+  const [deleteError, setDeleteError] = useState(null);
+  const [deleteSuccess, setDeleteSuccess] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -57,6 +69,48 @@ const EmployeesList = () => {
 
     fetchEmployees();
   }, [pagination.currentPage]);
+
+  const handleDeleteConfirm = (id) => {
+    setDeleteConfirm({ show: true, id });
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirm({ show: false, id: null });
+  };
+
+  const handleDeleteEmployee = async () => {
+    if (!deleteConfirm.id) return;
+
+    setIsDeleting(true);
+    try {
+      await SsiApi.deleteUser(deleteConfirm.id);
+
+      // Remove the deleted employee from the list
+      setEmployees(employees.filter((emp) => emp.id !== deleteConfirm.id));
+
+      // Update counts
+      setPagination((prev) => ({
+        ...prev,
+        total: prev.total - 1,
+        ssiap1Count:
+          employees.find((emp) => emp.id === deleteConfirm.id)?.ssiap_level ===
+          1
+            ? prev.ssiap1Count - 1
+            : prev.ssiap1Count,
+      }));
+
+      setDeleteSuccess("Employee deleted successfully");
+      setTimeout(() => setDeleteSuccess(null), 3000);
+    } catch (err) {
+      setDeleteError(
+        err.response?.data?.message || "Failed to delete employee"
+      );
+      setTimeout(() => setDeleteError(null), 5000);
+    } finally {
+      setIsDeleting(false);
+      setDeleteConfirm({ show: false, id: null });
+    }
+  };
 
   const getCertificationColor = (level) => {
     switch (level) {
@@ -103,7 +157,37 @@ const EmployeesList = () => {
 
   return (
     <div className="min-h-screen bg-white px-6 py-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+      {deleteSuccess && (
+        <div className="mb-4 p-3 bg-green-100 text-green-800 rounded-lg flex items-center justify-between">
+          <div className="flex items-center">
+            <BadgeCheck className="h-5 w-5 mr-2" />
+            <span>{deleteSuccess}</span>
+          </div>
+          <button
+            onClick={() => setDeleteSuccess(null)}
+            className="text-green-800 hover:text-green-900"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {deleteError && (
+        <div className="mb-4 p-3 bg-red-100 text-red-800 rounded-lg flex items-center justify-between">
+          <div className="flex items-center">
+            <AlertCircle className="h-5 w-5 mr-2" />
+            <span>{deleteError}</span>
+          </div>
+          <button
+            onClick={() => setDeleteError(null)}
+            className="text-red-800 hover:text-red-900"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
         <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
           <div className="flex items-center justify-between">
             <div>
@@ -156,43 +240,12 @@ const EmployeesList = () => {
             ></div>
           </div>
         </div>
-
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                SSIAP2 Certified
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.ssiap2Count}
-              </p>
-            </div>
-            <div className="p-3 rounded-lg bg-blue-50">
-              <Shield className="h-5 w-5 text-blue-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-500 rounded-full"
-              style={{
-                width: `${
-                  pagination.total > 0
-                    ? Math.min(
-                        100,
-                        (pagination.ssiap2Count / pagination.total) * 100
-                      )
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
       </div>
 
       <div className="flex justify-end mb-4">
         <Link
-          to={SSIAP_3_ADD_EMPLOYEE_ROUTE}
-          className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer  border-0 outline-0 inline-flex justify-center align-center"
+          to={SSIAP_2_ADD_EMPLOYEE_ROUTE}
+          className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer border-0 outline-0 inline-flex justify-center align-center"
         >
           <UserPlus className="h-4 w-4 mr-2" />
           Add Employee
@@ -269,60 +322,143 @@ const EmployeesList = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      className="text-gray-400 hover:text-gray-600 transition-colors"
-                      aria-label="More options"
-                    >
-                      <MoreVertical className="h-5 w-5" />
-                    </button>
+                    <div className="flex items-center space-x-2 justify-end">
+                      {/* Only show edit/delete for SSIAP1 users when current user is SSIAP2 */}
+                      {currentUser &&
+                        currentUser.ssiap_level === 2 &&
+                        employee.ssiap_level === 1 && (
+                          <>
+                            <Link
+                              to={SSIAP_2_EDIT_EMPLOYEE_ROUTE.replace(
+                                ":id",
+                                employee.id
+                              )}
+                              className="text-blue-600 hover:text-blue-900 p-2 rounded-full hover:bg-blue-50 transition-colors"
+                              title="Edit employee"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Link>
+
+                            <button
+                              onClick={() => handleDeleteConfirm(employee.id)}
+                              className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
+                              title="Delete employee"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </>
+                        )}
+                      {/* For other cases, show the more options button */}
+                      {(!currentUser ||
+                        currentUser.ssiap_level !== 2 ||
+                        employee.ssiap_level !== 1) && (
+                        <button
+                          className="text-gray-400 hover:text-gray-600 transition-colors"
+                          aria-label="More options"
+                        >
+                          <MoreVertical className="h-5 w-5" />
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
+
+              {employees.length === 0 && (
+                <tr>
+                  <td
+                    colSpan="4"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    No employees found
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-sm text-gray-500">
-          Showing <span className="font-medium">{firstItem}</span> to{" "}
-          <span className="font-medium">{lastItem}</span> of{" "}
-          <span className="font-medium">{pagination.total}</span> employees
+      <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
+        <div>
+          Showing {employees.length > 0 ? firstItem : 0} to {lastItem} of{" "}
+          {pagination.total} employees
         </div>
-        <div className="flex space-x-2">
+        <div className="flex items-center space-x-2">
           <button
-            className={`px-3 py-1 border rounded-md text-sm ${
-              pagination.currentPage === 1
-                ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-            } transition-colors`}
             onClick={handlePrevious}
-            disabled={pagination.currentPage === 1 || isChangingPage}
+            disabled={pagination.currentPage === 1}
+            className={`px-3 py-1 rounded cursor-pointer ${
+              pagination.currentPage === 1
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
           >
-            {isChangingPage ? "..." : "Previous"}
+            Previous
           </button>
-
-          <button className="px-3 py-1 border border-gray-300 bg-gray-100 rounded-md text-sm text-gray-700">
-            Page {pagination.currentPage} of {pagination.lastPage}
-          </button>
-
+          <span className="px-3 py-1 bg-sky-100 text-sky-700 rounded cursor-pointer">
+            {pagination.currentPage}
+          </span>
           <button
-            className={`px-3 py-1 border rounded-md text-sm ${
-              pagination.currentPage === pagination.lastPage
-                ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-            } transition-colors`}
             onClick={handleNext}
-            disabled={
-              pagination.currentPage === pagination.lastPage || isChangingPage
-            }
+            disabled={pagination.currentPage === pagination.lastPage}
+            className={`px-3 py-1 rounded cursor-pointer ${
+              pagination.currentPage === pagination.lastPage
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
           >
-            {isChangingPage ? "..." : "Next"}
+            Next
           </button>
         </div>
       </div>
+
+      {/* Delete confirmation modal */}
+      {deleteConfirm.show && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 mx-4 animate-in fade-in-0 zoom-in-95 duration-300">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <AlertCircle className="h-6 w-6 text-red-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                Confirm Deletion
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                Are you sure you want to delete this employee? This action
+                cannot be undone.
+              </p>
+            </div>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={handleDeleteCancel}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-4xl transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteEmployee}
+                disabled={isDeleting}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-4xl transition-colors flex items-center cursor-pointer"
+              >
+                {isDeleting ? (
+                  <>
+                    <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                    Deleting...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default EmployeesList;
+export default EmployeesListII;

@@ -7,6 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
     public function toArray(Request $request): array
     {
         return [
@@ -16,8 +21,14 @@ class UserResource extends JsonResource
             'phone_number' => $this->phone_number,
             'ssiap_level' => $this->ssiap_level,
             'site_id' => $this->site_id,
+            'site' => $this->when($this->relationLoaded('site'), function () {
+                return [
+                    'id' => $this->site->id,
+                    'site_name' => $this->site->site_name,
+                ];
+            }),
             'created_at' => $this->created_at,
-            'deleted_at' => $this->deleted_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
