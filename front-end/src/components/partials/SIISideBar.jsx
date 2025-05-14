@@ -13,7 +13,12 @@ import {
   Users,
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
-import { SSIAP_2_DASHBOARD_ROUTE, SSIAP_2_EMPLOYEES_ROUTE } from "../../routes";
+import {
+  SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+  SSIAP_2_DASHBOARD_ROUTE,
+  SSIAP_2_EMPLOYEES_ROUTE,
+  SSIAP_2_INCIDENTS_ROUTE,
+} from "../../routes";
 const SIISideBar = () => {
   const data = {
     navMain: [
@@ -81,11 +86,11 @@ const SIISideBar = () => {
         items: [
           {
             title: "Incidents Details",
-            url: "#",
+            url: SSIAP_2_INCIDENTS_ROUTE,
           },
           {
             title: "Incidents Sites And Teams",
-            url: "#",
+            url: SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
         ],
       },

@@ -17,6 +17,8 @@ import {
   SSIAP_3_ATTENDANCE_ROUTE,
   SSIAP_3_DASHBOARD_ROUTE,
   SSIAP_3_EMPLOYEES_ROUTE,
+  SSIAP_3_INCIDENTS_ROUTE,
+  SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
   SSIAP_3_REPLACEMENT_ROUTE,
   SSIAP_3_VACATIONS_ROUTE,
 } from "../../routes";
@@ -84,11 +86,11 @@ const SIIISideBar = () => {
         items: [
           {
             title: "Incidents Details",
-            url: "#",
+            url: SSIAP_3_INCIDENTS_ROUTE,
           },
           {
             title: "Incidents Sites And Teams",
-            url: "#",
+            url: SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
         ],
       },

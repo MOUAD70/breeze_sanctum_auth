@@ -13,11 +13,19 @@ import AddEmployeeForm from "../components/ssiap-3/ManageEmployees/AddEmployeeFo
 import AddEmployeeFormII from "../components/ssiap-2/ManageEmployees/AddEmployeeFormII";
 import EditEmployeeForm from "../components/ssiap-3/ManageEmployees/EditEmployeeForm";
 import EditEmployeeFormII from "../components/ssiap-2/ManageEmployees/EditEmployeeFormII";
-import AttendancePageI from "../components/ssiap-1/ManageAttendance/AttendancePageI";
 import IncidentsDetailsSsi from "../components/ssiap-1/ManageIncidents/IncidentsDetailsSsi";
 import IncidentsSitesAndTeamsSsi from "../components/ssiap-1/ManageIncidents/IncidentsSitesAndTeamsSsi";
 import AddIncidentSsi from "../components/ssiap-1/ManageIncidents/AddIncidentSsi";
 import EditIncidentSsi from "../components/ssiap-1/ManageIncidents/EditIncidentSsi";
+import AttendanceDetailsSsi from "../components/ssiap-1/ManageAttendance/AttendanceDetailsSsi";
+import IncidentsDetailsSsii from "../components/ssiap-2/ManageIncidents/IncidentsDetailsSsii";
+import AddIncidentSsii from "../components/ssiap-2/ManageIncidents/AddIncidentSsii";
+import EditIncidentSsii from "../components/ssiap-2/ManageIncidents/EditIncidentSsii";
+import IncidentsSitesAndTeamsSsii from "../components/ssiap-2/ManageIncidents/IncidentsSitesAndTeamsSsii";
+import IncidentsDetailsSsiii from "../components/ssiap-3/ManageIncidents/IncidentsDetailsSsiii";
+import AddIncidentSsiii from "../components/ssiap-3/ManageIncidents/AddIncidentSsiii";
+import EditIncidentSsiii from "../components/ssiap-3/ManageIncidents/EditIncidentSsiii";
+import IncidentsSitesAndTeamsSsiii from "../components/ssiap-3/ManageIncidents/IncidentsSitesAndTeamsSsiii";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -36,7 +44,8 @@ export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
 export const SSIAP_1_INCIDENTS_ROUTE = "/ssiap-1/incidents";
 export const SSIAP_1_ADD_INCIDENTS_ROUTE = "/ssiap-1/incidents/add";
 export const SSIAP_1_EDIT_INCIDENTS_ROUTE = "/ssiap-1/incidents/edit/:id";
-export const SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE = "/ssiap-1/incidentsSitesAndTeams";
+export const SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE =
+  "/ssiap-1/incidentsSitesAndTeams";
 export const SSIAP_1_ATTENDANCE_ROUTE = "/ssiap-1/attendance";
 
 // SSIAP 2
@@ -44,6 +53,11 @@ export const SSIAP_2_DASHBOARD_ROUTE = "/ssiap-2/dashboard";
 export const SSIAP_2_EMPLOYEES_ROUTE = "/ssiap-2/employees";
 export const SSIAP_2_ADD_EMPLOYEE_ROUTE = "/ssiap-2/employees/add";
 export const SSIAP_2_EDIT_EMPLOYEE_ROUTE = "/ssiap-2/employees/edit/:id";
+export const SSIAP_2_INCIDENTS_ROUTE = "/ssiap-2/incidents";
+export const SSIAP_2_ADD_INCIDENTS_ROUTE = "/ssiap-2/incidents/add";
+export const SSIAP_2_EDIT_INCIDENTS_ROUTE = "/ssiap-2/incidents/edit/:id";
+export const SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE =
+  "/ssiap-2/incidentsSitesAndTeams";
 
 // SSIAP 3
 export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
@@ -53,6 +67,11 @@ export const SSIAP_3_REPLACEMENT_ROUTE = "/ssiap-3/replacement";
 export const SSIAP_3_VACATIONS_ROUTE = "/ssiap-3/vacations";
 export const SSIAP_3_ADD_EMPLOYEE_ROUTE = "/ssiap-3/employees/add";
 export const SSIAP_3_EDIT_EMPLOYEE_ROUTE = "/ssiap-3/employees/edit/:id";
+export const SSIAP_3_INCIDENTS_ROUTE = "/ssiap-3/incidents";
+export const SSIAP_3_ADD_INCIDENTS_ROUTE = "/ssiap-3/incidents/add";
+export const SSIAP_3_EDIT_INCIDENTS_ROUTE = "/ssiap-3/incidents/edit/:id";
+export const SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE =
+  "/ssiap-3/incidentsSitesAndTeams";
 
 export const routes = createBrowserRouter([
   {
@@ -78,7 +97,7 @@ export const routes = createBrowserRouter([
         path: SSIAP_1_ATTENDANCE_ROUTE,
         element: (
           <ProtectedRoute requiredLevel={1}>
-            <AttendancePageI />
+            <AttendanceDetailsSsi />
           </ProtectedRoute>
         ),
       },
@@ -151,6 +170,38 @@ export const routes = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: SSIAP_2_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <IncidentsDetailsSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_ADD_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <AddIncidentSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_EDIT_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <EditIncidentSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <IncidentsSitesAndTeamsSsii />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
   {
@@ -209,6 +260,38 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={3}>
             <EditEmployeeForm />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <IncidentsDetailsSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_ADD_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <AddIncidentSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_EDIT_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <EditIncidentSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <IncidentsSitesAndTeamsSsiii />
           </ProtectedRoute>
         ),
       },
