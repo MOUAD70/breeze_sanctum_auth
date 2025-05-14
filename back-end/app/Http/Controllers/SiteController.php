@@ -63,4 +63,5 @@ class SiteController extends Controller
         $site->delete();
         return response()->json(null, 204);
     }
+    
 }

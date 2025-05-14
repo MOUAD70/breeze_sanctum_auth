@@ -16,4 +16,14 @@ class EmployeeTeamAssignment extends Model
         'shift_start',
         'shift_end',
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

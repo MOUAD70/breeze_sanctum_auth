@@ -20,6 +20,7 @@ import {
   SSIAP_2_EDIT_EMPLOYEE_ROUTE,
 } from "../../../routes";
 import { useUserContext } from "../../../context/UserContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EmployeesListII = () => {
   const [employees, setEmployees] = useState([]);
@@ -84,11 +85,7 @@ const EmployeesListII = () => {
     setIsDeleting(true);
     try {
       await SsiApi.deleteUser(deleteConfirm.id);
-
-      // Remove the deleted employee from the list
       setEmployees(employees.filter((emp) => emp.id !== deleteConfirm.id));
-
-      // Update counts
       setPagination((prev) => ({
         ...prev,
         total: prev.total - 1,
@@ -125,9 +122,7 @@ const EmployeesListII = () => {
     }
   };
 
-  const getCertificationText = (level) => {
-    return `SSIAP${level}`;
-  };
+  const getCertificationText = (level) => `SSIAP${level}`;
 
   const handlePrevious = () => {
     if (pagination.currentPage > 1) {
@@ -188,58 +183,80 @@ const EmployeesListII = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                Total Employees
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.total}
-              </p>
+        {loading ? (
+          <>
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-8 w-16 mt-2" />
+                  </div>
+                  <Skeleton className="h-11 w-11 rounded-lg" />
+                </div>
+                <Skeleton className="mt-4 h-1 w-full rounded-full" />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Total Employees
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-1 group-hover:text-sky-700 transition-colors">
+                    {pagination.total}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-sky-50 group-hover:bg-sky-100 transition-colors">
+                  <User className="h-5 w-5 text-sky-600" />
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-sky-500 rounded-full"
+                  style={{ width: "100%" }}
+                ></div>
+              </div>
             </div>
-            <div className="p-3 rounded-lg bg-sky-50">
-              <User className="h-5 w-5 text-sky-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-sky-500 rounded-full"
-              style={{ width: "100%" }}
-            ></div>
-          </div>
-        </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                SSIAP1 Certified
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.ssiap1Count}
-              </p>
+            <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    SSIAP1 Certified
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-1 group-hover:text-purple-700 transition-colors">
+                    {pagination.ssiap1Count}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-purple-50 group-hover:bg-purple-100 transition-colors">
+                  <Shield className="h-5 w-5 text-purple-600" />
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-purple-500 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${
+                      pagination.total > 0
+                        ? Math.min(
+                            100,
+                            (pagination.ssiap1Count / pagination.total) * 100
+                          )
+                        : 0
+                    }%`,
+                  }}
+                ></div>
+              </div>
             </div>
-            <div className="p-3 rounded-lg bg-purple-50">
-              <Shield className="h-5 w-5 text-purple-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-purple-500 rounded-full"
-              style={{
-                width: `${
-                  pagination.total > 0
-                    ? Math.min(
-                        100,
-                        (pagination.ssiap1Count / pagination.total) * 100
-                      )
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
       <div className="flex justify-end mb-4">
@@ -255,18 +272,18 @@ const EmployeesListII = () => {
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gradient-to-r from-sky-100 to-sky-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Employee
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Certification
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -322,8 +339,7 @@ const EmployeesListII = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex items-center space-x-2 justify-end">
-                      {/* Only show edit/delete for SSIAP1 users when current user is SSIAP2 */}
+                    <div className="flex items-center justify-end">
                       {currentUser &&
                         currentUser.ssiap_level === 2 &&
                         employee.ssiap_level === 1 && (
@@ -341,14 +357,13 @@ const EmployeesListII = () => {
 
                             <button
                               onClick={() => handleDeleteConfirm(employee.id)}
-                              className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
+                              className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors cursor-pointer"
                               title="Delete employee"
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
                           </>
                         )}
-                      {/* For other cases, show the more options button */}
                       {(!currentUser ||
                         currentUser.ssiap_level !== 2 ||
                         employee.ssiap_level !== 1) && (
@@ -413,7 +428,6 @@ const EmployeesListII = () => {
         </div>
       </div>
 
-      {/* Delete confirmation modal */}
       {deleteConfirm.show && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 mx-4 animate-in fade-in-0 zoom-in-95 duration-300">

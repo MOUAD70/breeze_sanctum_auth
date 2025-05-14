@@ -34,7 +34,6 @@ import {
 } from "lucide-react";
 import { SSIAP_2_EMPLOYEES_ROUTE } from "../../../routes";
 
-// Define the form schema with Zod
 const formSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -59,7 +58,6 @@ const AddEmployeeFormII = () => {
   const [loadingSites, setLoadingSites] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Initialize form with react-hook-form and zod resolver
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,12 +73,10 @@ const AddEmployeeFormII = () => {
 
   useEffect(() => {
     if (currentUser) {
-      // Auto-set site_id for SSIAP2 users
       if (currentUser.ssiap_level === 2) {
         form.setValue("site_id", currentUser.site_id);
       }
 
-      // Fetch sites for SSIAP3 users
       if (currentUser.ssiap_level === 3) {
         const fetchSites = async () => {
           setLoadingSites(true);
@@ -100,8 +96,6 @@ const AddEmployeeFormII = () => {
     }
   }, [currentUser, form]);
 
-  console.log(currentUser);
-
   const onSubmit = async (data) => {
     if (!currentUser) return;
 
@@ -120,7 +114,6 @@ const AddEmployeeFormII = () => {
       const errorMessage =
         err.response?.data?.message || "Failed to create employee";
 
-      // Handle validation errors from the server
       if (err.response?.data?.errors) {
         const errors = err.response.data.errors;
         Object.keys(errors).forEach((key) => {
@@ -152,7 +145,6 @@ const AddEmployeeFormII = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden"
         >
-          {/* Header */}
           <div className="bg-gradient-to-r from-sky-50 to-white p-6 border-b border-gray-100">
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-2xl font-bold text-gray-700 tracking-tight">
@@ -169,7 +161,6 @@ const AddEmployeeFormII = () => {
             </div>
           </div>
 
-          {/* Form content */}
           <div className="p-6">
             {form.formState.errors.root && (
               <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
@@ -403,7 +394,6 @@ const AddEmployeeFormII = () => {
             </div>
           </div>
 
-          {/* Footer */}
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
             <Link
               to={SSIAP_2_EMPLOYEES_ROUTE}

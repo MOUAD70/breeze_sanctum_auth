@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,10 +22,6 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        Log::info('UpdateUserRequest rules called', [
-            'request_data' => $this->all()
-        ]);
-        
         return [
             'name' => 'sometimes|required|string|max:50',
             'email' => [
@@ -46,25 +41,5 @@ class UpdateUserRequest extends FormRequest
             'ssiap_level' => ['sometimes', 'required', 'integer', Rule::in([1, 2, 3])],
             'site_id' => 'sometimes|required|exists:sites,id',
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation()
-    {
-        Log::info('UpdateUserRequest prepareForValidation', [
-            'original_input' => $this->all()
-        ]);
-    }
-
-    /**
-     * Handle a passed validation attempt.
-     */
-    protected function passedValidation()
-    {
-        Log::info('UpdateUserRequest passedValidation', [
-            'validated_data' => $this->validated()
-        ]);
     }
 }

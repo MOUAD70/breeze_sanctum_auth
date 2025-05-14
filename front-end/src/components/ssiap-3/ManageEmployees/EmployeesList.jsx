@@ -19,6 +19,7 @@ import {
   SSIAP_3_EDIT_EMPLOYEE_ROUTE,
 } from "../../../routes";
 import { useUserContext } from "../../../context/UserContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -69,13 +70,8 @@ const EmployeesList = () => {
     fetchEmployees();
   }, [pagination.currentPage]);
 
-  const handleDeleteConfirm = (id) => {
-    setDeleteConfirm({ show: true, id });
-  };
-
-  const handleDeleteCancel = () => {
-    setDeleteConfirm({ show: false, id: null });
-  };
+  const handleDeleteConfirm = (id) => setDeleteConfirm({ show: true, id });
+  const handleDeleteCancel = () => setDeleteConfirm({ show: false, id: null });
 
   const handleDeleteEmployee = async () => {
     if (!deleteConfirm.id) return;
@@ -83,11 +79,8 @@ const EmployeesList = () => {
     setIsDeleting(true);
     try {
       await SsiApi.deleteUser(deleteConfirm.id);
-
-      // Remove the deleted employee from the list
       setEmployees(employees.filter((emp) => emp.id !== deleteConfirm.id));
 
-      // Update counts
       setPagination((prev) => ({
         ...prev,
         total: prev.total - 1,
@@ -129,9 +122,7 @@ const EmployeesList = () => {
     }
   };
 
-  const getCertificationText = (level) => {
-    return `SSIAP${level}`;
-  };
+  const getCertificationText = (level) => `SSIAP${level}`;
 
   const handlePrevious = () => {
     if (pagination.currentPage > 1) {
@@ -192,95 +183,117 @@ const EmployeesList = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                Total Employees
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.total}
-              </p>
+        {loading ? (
+          <>
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-8 w-16 mt-2" />
+                  </div>
+                  <Skeleton className="h-11 w-11 rounded-lg" />
+                </div>
+                <Skeleton className="mt-4 h-1 w-full rounded-full" />
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Total Employees
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-1 group-hover:text-sky-700 transition-colors">
+                    {pagination.total}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-sky-50 group-hover:bg-sky-100 transition-colors">
+                  <User className="h-5 w-5 text-sky-600" />
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-sky-500 rounded-full"
+                  style={{ width: "100%" }}
+                ></div>
+              </div>
             </div>
-            <div className="p-3 rounded-lg bg-sky-50">
-              <User className="h-5 w-5 text-sky-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-sky-500 rounded-full"
-              style={{ width: "100%" }}
-            ></div>
-          </div>
-        </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                SSIAP1 Certified
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.ssiap1Count}
-              </p>
+            <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    SSIAP1 Certified
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-1 group-hover:text-purple-700 transition-colors">
+                    {pagination.ssiap1Count}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-purple-50 group-hover:bg-purple-100 transition-colors">
+                  <Shield className="h-5 w-5 text-purple-600" />
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-purple-500 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${
+                      pagination.total > 0
+                        ? Math.min(
+                            100,
+                            (pagination.ssiap1Count / pagination.total) * 100
+                          )
+                        : 0
+                    }%`,
+                  }}
+                ></div>
+              </div>
             </div>
-            <div className="p-3 rounded-lg bg-purple-50">
-              <Shield className="h-5 w-5 text-purple-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-purple-500 rounded-full"
-              style={{
-                width: `${
-                  pagination.total > 0
-                    ? Math.min(
-                        100,
-                        (pagination.ssiap1Count / pagination.total) * 100
-                      )
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
 
-        <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500">
-                SSIAP2 Certified
-              </p>
-              <p className="text-2xl font-semibold text-gray-800 mt-1">
-                {pagination.ssiap2Count}
-              </p>
+            <div className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 group">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    SSIAP2 Certified
+                  </p>
+                  <p className="text-2xl font-semibold text-gray-800 mt-1 group-hover:text-blue-700 transition-colors">
+                    {pagination.ssiap2Count}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                  <Shield className="h-5 w-5 text-blue-600" />
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-blue-500 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${
+                      pagination.total > 0
+                        ? Math.min(
+                            100,
+                            (pagination.ssiap2Count / pagination.total) * 100
+                          )
+                        : 0
+                    }%`,
+                  }}
+                ></div>
+              </div>
             </div>
-            <div className="p-3 rounded-lg bg-blue-50">
-              <Shield className="h-5 w-5 text-blue-600" />
-            </div>
-          </div>
-          <div className="mt-2 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-500 rounded-full"
-              style={{
-                width: `${
-                  pagination.total > 0
-                    ? Math.min(
-                        100,
-                        (pagination.ssiap2Count / pagination.total) * 100
-                      )
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
       <div className="flex justify-end mb-4">
         <Link
           to={SSIAP_3_ADD_EMPLOYEE_ROUTE}
-          className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer  border-0 outline-0 inline-flex justify-center align-center"
+          className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer border-0 outline-0 inline-flex justify-center align-center"
         >
           <UserPlus className="h-4 w-4 mr-2" />
           Add Employee
@@ -290,18 +303,18 @@ const EmployeesList = () => {
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gradient-to-r from-sky-100 to-sky-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Employee
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Certification
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -340,17 +353,26 @@ const EmployeesList = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${getCertificationColor(
-                        employee.ssiap_level
-                      )} bg-opacity-10`}
-                    >
-                      <Shield className="h-3.5 w-3.5 mr-1" />
-                      {getCertificationText(employee.ssiap_level)}
+                    <div className="flex items-center">
+                      <Shield
+                        className={`h-4 w-4 mr-2 ${getCertificationColor(
+                          employee.ssiap_level
+                        )}`}
+                      />
+                      <span className="text-sm text-gray-900">
+                        {getCertificationText(employee.ssiap_level)}
+                      </span>
+                      {employee.ssiap_level > 0 && (
+                        <BadgeCheck className="h-4 w-4 ml-2 text-green-500" />
+                      )}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      Member since{" "}
+                      {new Date(employee.created_at).toLocaleDateString()}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex items-center space-x-2 justify-end">
+                    <div className="flex items-center justify-end">
                       <Link
                         to={SSIAP_3_EDIT_EMPLOYEE_ROUTE.replace(
                           ":id",
@@ -361,10 +383,9 @@ const EmployeesList = () => {
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
-
                       <button
                         onClick={() => handleDeleteConfirm(employee.id)}
-                        className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors"
+                        className="text-red-600 hover:text-red-900 p-2 rounded-full hover:bg-red-50 transition-colors cursor-pointer"
                         title="Delete employee"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -373,7 +394,6 @@ const EmployeesList = () => {
                   </td>
                 </tr>
               ))}
-
               {employees.length === 0 && (
                 <tr>
                   <td
@@ -389,7 +409,6 @@ const EmployeesList = () => {
         </div>
       </div>
 
-      {/* Pagination controls */}
       <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
         <div>
           Showing {employees.length > 0 ? firstItem : 0} to {lastItem} of{" "}
@@ -424,7 +443,6 @@ const EmployeesList = () => {
         </div>
       </div>
 
-      {/* Delete confirmation modal */}
       {deleteConfirm.show && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 mx-4 animate-in fade-in-0 zoom-in-95 duration-300">

@@ -34,7 +34,6 @@ import {
 } from "lucide-react";
 import { SSIAP_3_EMPLOYEES_ROUTE } from "../../../routes";
 
-// Define the form schema with Zod
 const formSchema = z
   .object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -59,7 +58,6 @@ const AddEmployeeForm = () => {
   const [loadingSites, setLoadingSites] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Initialize form with react-hook-form and zod resolver
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,12 +73,10 @@ const AddEmployeeForm = () => {
 
   useEffect(() => {
     if (currentUser) {
-      // Auto-set site_id for SSIAP2 users
       if (currentUser.ssiap_level === 2) {
         form.setValue("site_id", currentUser.site_id);
       }
 
-      // Fetch sites for SSIAP3 users
       if (currentUser.ssiap_level === 3) {
         const fetchSites = async () => {
           setLoadingSites(true);
@@ -145,7 +141,6 @@ const AddEmployeeForm = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Back button */}
       <Link
         to={SSIAP_3_EMPLOYEES_ROUTE}
         className="fixed bottom-6 left-6 bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full shadow-md transition-colors duration-200"
@@ -158,7 +153,6 @@ const AddEmployeeForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden"
         >
-          {/* Header */}
           <div className="bg-gradient-to-r from-sky-50 to-white p-6 border-b border-gray-100">
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-2xl font-bold text-gray-700 tracking-tight">
@@ -175,7 +169,6 @@ const AddEmployeeForm = () => {
             </div>
           </div>
 
-          {/* Form content */}
           <div className="p-6">
             {form.formState.errors.root && (
               <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
@@ -254,38 +247,6 @@ const AddEmployeeForm = () => {
                 )}
               />
 
-              {currentUser.ssiap_level === 3 && (
-                <FormField
-                  control={form.control}
-                  name="ssiap_level"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-700 font-medium text-sm">
-                        SSIAP Level
-                      </FormLabel>
-                      <FormControl>
-                        <div className="relative group">
-                          <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={String(field.value)}
-                          >
-                            <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
-                              <SelectValue placeholder="Select SSIAP level" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="1">SSIAP Level 1</SelectItem>
-                              <SelectItem value="2">SSIAP Level 2</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-xs text-red-500" />
-                    </FormItem>
-                  )}
-                />
-              )}
-
               <FormField
                 control={form.control}
                 name="password"
@@ -298,8 +259,8 @@ const AddEmployeeForm = () => {
                       <div className="relative group">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
                         <Input
-                          type="password"
                           className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
+                          type="password"
                           placeholder="••••••••"
                           {...field}
                         />
@@ -322,8 +283,8 @@ const AddEmployeeForm = () => {
                       <div className="relative group">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
                         <Input
-                          type="password"
                           className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
+                          type="password"
                           placeholder="••••••••"
                           {...field}
                         />
@@ -333,6 +294,38 @@ const AddEmployeeForm = () => {
                   </FormItem>
                 )}
               />
+
+              {currentUser.ssiap_level === 3 && (
+                <FormField
+                  control={form.control}
+                  name="ssiap_level"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-700 font-medium text-sm">
+                        SSIAP Level
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative group">
+                          <Shield className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-gray-600 transition-colors" />
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={String(field.value)}
+                          >
+                            <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                              <SelectValue placeholder="Select SSIAP level" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="1">SSIAP 1</SelectItem>
+                              <SelectItem value="2">SSIAP 2</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-xs text-red-500" />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               {currentUser.ssiap_level === 3 && (
                 <FormField
@@ -359,7 +352,7 @@ const AddEmployeeForm = () => {
                               }
                             >
                               <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
-                                <SelectValue placeholder="Select a site" />
+                                <SelectValue placeholder="Select site" />
                               </SelectTrigger>
                               <SelectContent>
                                 {sites.map((site) => (
@@ -408,7 +401,7 @@ const AddEmployeeForm = () => {
               )}
             </div>
           </div>
-          {/* Footer */}
+
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
             <Link
               to={SSIAP_3_EMPLOYEES_ROUTE}

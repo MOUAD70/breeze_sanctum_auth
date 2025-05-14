@@ -23,7 +23,7 @@ const SsiApi = {
     return axiosClient.post("/api/users", userData);
   },
   updateUser: (id, userData) => {
-    console.log("API updateUser called with:", id, userData); 
+    console.log("API updateUser called with:", id, userData);
     return axiosClient.put(`/api/users/${id}`, userData);
   },
   deleteUser: async (id) => {
@@ -33,6 +33,9 @@ const SsiApi = {
   // Sites CRUD API
   getOneSite: async (id) => {
     return axiosClient.get(`/api/sites/${id}`);
+  },
+  getUserSite: async (userId) => {
+    return axiosClient.get(`/api/users/${userId}/site`);
   },
   getSites: async () => {
     return axiosClient.get("/api/sites");
@@ -45,6 +48,11 @@ const SsiApi = {
   },
   deleteSite: async (id) => {
     return axiosClient.delete(`/api/sites/${id}`);
+  },
+
+  // Current User Assignments API
+  getCurrentUserAssignments: async () => {
+    return axiosClient.get("/api/assignments/current");
   },
 };
 

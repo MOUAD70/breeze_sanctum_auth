@@ -30,9 +30,9 @@ import {
   Shield,
   Building,
   ArrowLeft,
-  UserRoundPen,
 } from "lucide-react";
 import { SSIAP_3_EMPLOYEES_ROUTE } from "../../../routes";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -52,7 +52,6 @@ const EditEmployeeForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Initialize form with react-hook-form and zod resolver
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,9 +70,6 @@ const EditEmployeeForm = () => {
         const response = await SsiApi.getOneUser(id);
         const userData = response.data;
 
-        console.log("Fetched user data:", userData); // Debug log
-
-        // Set form values
         form.reset({
           name: userData.name || "",
           email: userData.email || "",
@@ -95,24 +91,21 @@ const EditEmployeeForm = () => {
   }, [id, form]);
 
   useEffect(() => {
-    if (currentUser) {
-      // Fetch sites for SSIAP3 users
-      if (currentUser.ssiap_level === 3) {
-        const fetchSites = async () => {
-          setLoadingSites(true);
-          try {
-            const response = await SsiApi.getSites();
-            setSites(response.data);
-          } catch (err) {
-            form.setError("site_id", {
-              message: "Failed to load sites",
-            });
-          } finally {
-            setLoadingSites(false);
-          }
-        };
-        fetchSites();
-      }
+    if (currentUser && currentUser.ssiap_level === 3) {
+      const fetchSites = async () => {
+        setLoadingSites(true);
+        try {
+          const response = await SsiApi.getSites();
+          setSites(response.data);
+        } catch (err) {
+          form.setError("site_id", {
+            message: "Failed to load sites",
+          });
+        } finally {
+          setLoadingSites(false);
+        }
+      };
+      fetchSites();
     }
   }, [currentUser, form]);
 
@@ -127,14 +120,11 @@ const EditEmployeeForm = () => {
     }
 
     setSubmitting(true);
-    console.log("Submitting data:", data); // Debug log
 
     try {
-      const response = await SsiApi.updateUser(id, data);
-      console.log("Update response:", response); // Debug log
+      await SsiApi.updateUser(id, data);
       navigate(SSIAP_3_EMPLOYEES_ROUTE);
     } catch (err) {
-      console.error("Update error:", err.response?.data || err); // Debug log
       const errorMessage =
         err.response?.data?.message || "Failed to update employee";
 
@@ -164,9 +154,39 @@ const EditEmployeeForm = () => {
 
   if (loading) {
     return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md flex items-center justify-center">
-        <Loader2 className="animate-spin h-6 w-6 mr-2" />
-        <span>Loading employee data...</span>
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="bg-gradient-to-r from-sky-50 to-white p-6 border-b border-gray-100">
+            <div className="flex flex-col items-center justify-center">
+              <Skeleton className="h-8 w-48 mb-2" />
+              <div className="mt-2 h-1 w-16 bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full" />
+              <Skeleton className="h-4 w-64 mt-3" />
+            </div>
+          </div>
+
+          {/* Skeleton for potential form error message */}
+          <div className="px-6 py-3 bg-gray-50 border-b border-gray-100">
+            <Skeleton className="h-5 w-full max-w-md" />
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="space-y-2">
+                  <Skeleton className="h-5 w-24" />
+                  <div className="relative group">
+                    <Skeleton className="h-11 w-full rounded-lg" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
+            <Skeleton className="h-10 w-40 rounded-4xl" />
+            <Skeleton className="h-10 w-40 rounded-4xl" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -189,7 +209,6 @@ const EditEmployeeForm = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Back button */}
       <Link
         to={SSIAP_3_EMPLOYEES_ROUTE}
         className="fixed bottom-6 left-6 bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full shadow-md transition-colors duration-200"
@@ -202,7 +221,6 @@ const EditEmployeeForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="bg-white rounded-lg shadow-sm border border-gray-200"
         >
-          {/* Header */}
           <div className="bg-gradient-to-r from-sky-50 to-white p-6 border-b border-gray-100">
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-2xl font-bold text-gray-700 tracking-tight">
@@ -219,17 +237,14 @@ const EditEmployeeForm = () => {
             </div>
           </div>
 
-          {/* Form error message */}
           {form.formState.errors.root && (
             <div className="px-6 py-3 bg-red-50 text-red-700 text-sm">
               {form.formState.errors.root.message}
             </div>
           )}
 
-          {/* Form fields */}
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Name field */}
               <FormField
                 control={form.control}
                 name="name"
@@ -253,7 +268,6 @@ const EditEmployeeForm = () => {
                 )}
               />
 
-              {/* Email field */}
               <FormField
                 control={form.control}
                 name="email"
@@ -278,7 +292,6 @@ const EditEmployeeForm = () => {
                 )}
               />
 
-              {/* Phone field */}
               <FormField
                 control={form.control}
                 name="phone_number"
@@ -381,7 +394,7 @@ const EditEmployeeForm = () => {
               )}
             </div>
           </div>
-          {/* Footer */}
+
           <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
             <Link
               to={SSIAP_3_EMPLOYEES_ROUTE}
