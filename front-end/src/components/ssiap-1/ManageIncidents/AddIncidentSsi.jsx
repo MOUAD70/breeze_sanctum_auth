@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, Calendar, Clock, Loader2 } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Calendar, Clock, Loader2, MapPin } from "lucide-react";
 import SsiApi from "../../../services/api/SsiApi";
 import { useUserContext } from "../../../context/UserContext";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,8 @@ const AddIncidentSsi = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [sites, setSites] = useState([]);
+  const [loadingSites, setLoadingSites] = useState(false);
   const [formData, setFormData] = useState({
     site_id: user?.site_id || "",
     incident_type: "",
@@ -32,7 +34,34 @@ const AddIncidentSsi = () => {
     location: "",
     incident_date: format(new Date(), "yyyy-MM-dd"),
     incident_time: format(new Date(), "HH:mm"),
+    reported_by: user?.id || "",
   });
+
+  useEffect(() => {
+    // Set user-related fields when user context is available
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        site_id: user.site_id,
+        reported_by: user.id
+      }));
+    }
+    
+    // Fetch sites for location dropdown
+    const fetchSites = async () => {
+      setLoadingSites(true);
+      try {
+        const response = await SsiApi.getSites();
+        setSites(response.data);
+      } catch (err) {
+        console.error("Failed to load sites", err);
+      } finally {
+        setLoadingSites(false);
+      }
+    };
+    
+    fetchSites();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -166,7 +195,7 @@ const AddIncidentSsi = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
-                  <Calendar className="h-4 w-4 inline mr-1" />
+                  <Calendar className="h-4 w-4 inline mx-1 mb-1" />
                   Incident Date
                 </label>
                 <Input
@@ -180,7 +209,7 @@ const AddIncidentSsi = () => {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
-                  <Clock className="h-4 w-4 inline mr-1" />
+                  <Clock className="h-4 w-4 inline mx-1 mb-1" />
                   Incident Time
                 </label>
                 <Input
@@ -195,35 +224,74 @@ const AddIncidentSsi = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
+                <MapPin className="h-4 w-4 inline mx-1 mb-1" />
                 Location
               </label>
-              <Input
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                required
-                placeholder="Where did the incident occur?"
-              />
+              {loadingSites ? (
+                <div className="bg-white border-gray-300 h-11 text-gray-500 rounded-lg flex items-center px-3">
+                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                  Loading locations...
+                </div>
+              ) : (
+                <Select
+                  value={formData.location}
+                  onValueChange={(value) => handleSelectChange("location", value)}
+                  required
+                >
+                  <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                    <SelectValue placeholder="Select location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sites.map((site) => (
+                      <SelectItem key={site.id} value={site.site_name}>
+                        {site.site_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                Severity
-              </label>
-              <Select
-                value={formData.severity}
-                onValueChange={(value) => handleSelectChange("severity", value)}
-                required
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select severity level" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Low">Low</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Severity
+                </label>
+                <Select
+                  value={formData.severity}
+                  onValueChange={(value) => handleSelectChange("severity", value)}
+                  required
+                >
+                  <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                    <SelectValue placeholder="Select severity level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Status
+                </label>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => handleSelectChange("status", value)}
+                  required
+                >
+                  <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Pending">Pending</SelectItem>
+                    <SelectItem value="In Progress">In Progress</SelectItem>
+                    <SelectItem value="Resolved">Resolved</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -237,8 +305,11 @@ const AddIncidentSsi = () => {
                 required
                 placeholder="Provide detailed information about the incident"
                 rows={5}
+                className="bg-white border-gray-300 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
               />
             </div>
+            <input type="hidden" name="site_id" value={formData.site_id} />
+            <input type="hidden" name="reported_by" value={formData.reported_by} />
           </form>
         </div>
 

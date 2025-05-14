@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Loader2, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Loader2, AlertTriangle, MapPin } from "lucide-react";
 import SsiApi from "../../../services/api/SsiApi";
 import { useUserContext } from "../../../context/UserContext";
 import { Button } from "@/components/ui/button";
@@ -23,12 +23,15 @@ const EditIncidentSsi = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [sites, setSites] = useState([]);
+  const [loadingSites, setLoadingSites] = useState(false);
   const [formData, setFormData] = useState({
     site_id: "",
     incident_type: "",
     severity: "",
     description: "",
     status: "",
+    location: "",
   });
 
   useEffect(() => {
@@ -54,6 +57,7 @@ const EditIncidentSsi = () => {
           severity: incident.severity,
           description: incident.description,
           status: incident.status,
+          location: incident.location || "",
         });
       } catch (err) {
         setError("Failed to load incident");
@@ -63,7 +67,21 @@ const EditIncidentSsi = () => {
       }
     };
 
+    // Fetch sites for location dropdown
+    const fetchSites = async () => {
+      setLoadingSites(true);
+      try {
+        const response = await SsiApi.getSites();
+        setSites(response.data);
+      } catch (err) {
+        console.error("Failed to load sites", err);
+      } finally {
+        setLoadingSites(false);
+      }
+    };
+
     fetchIncident();
+    fetchSites();
   }, [id, user]);
 
   const handleChange = (e) => {
@@ -185,6 +203,38 @@ const EditIncidentSsi = () => {
               />
             </div>
 
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                <MapPin className="h-4 w-4 inline mr-1" />
+                Location
+              </label>
+              {loadingSites ? (
+                <div className="bg-white border-gray-300 h-11 text-gray-500 rounded-lg flex items-center px-3">
+                  <Loader2 className="animate-spin h-4 w-4 mr-2" />
+                  Loading locations...
+                </div>
+              ) : (
+                <Select
+                  value={formData.location}
+                  onValueChange={(value) =>
+                    handleSelectChange("location", value)
+                  }
+                  required
+                >
+                  <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
+                    <SelectValue placeholder="Select location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sites.map((site) => (
+                      <SelectItem key={site.id} value={site.site_name}>
+                        {site.site_name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
@@ -192,7 +242,9 @@ const EditIncidentSsi = () => {
                 </label>
                 <Select
                   value={formData.severity}
-                  onValueChange={(value) => handleSelectChange("severity", value)}
+                  onValueChange={(value) =>
+                    handleSelectChange("severity", value)
+                  }
                   required
                 >
                   <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
