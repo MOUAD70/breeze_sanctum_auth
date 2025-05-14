@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeTeamAssignmentController;
+use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -33,6 +34,11 @@ Route::middleware('auth:sanctum')->group(function () {
 // USER ROUTES
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{id}/site', [UserController::class, 'getUserSite']);
+});
+
+// INCIDENTS ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('incidents', IncidentController::class);
 });
 
 

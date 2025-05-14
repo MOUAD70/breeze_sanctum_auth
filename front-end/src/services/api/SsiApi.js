@@ -50,6 +50,23 @@ const SsiApi = {
     return axiosClient.delete(`/api/sites/${id}`);
   },
 
+  // Incidents CRUD API
+  getIncidents: async (params = {}) => {
+    return axiosClient.get("/api/incidents", { params });
+  },
+  getOneIncident: async (id) => {
+    return axiosClient.get(`/api/incidents/${id}`);
+  },
+  createIncident: async (incidentData) => {
+    return axiosClient.post("/api/incidents", incidentData);
+  },
+  updateIncident: async (id, incidentData) => {
+    return axiosClient.put(`/api/incidents/${id}`, incidentData);
+  },
+  deleteIncident: async (id) => {
+    return axiosClient.delete(`/api/incidents/${id}`);
+  },
+
   // Current User Assignments API
   getCurrentUserAssignments: async () => {
     return axiosClient.get("/api/assignments/current");

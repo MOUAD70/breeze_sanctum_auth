@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
+    /**
+     * Get the users resources
+     */
     public function index()
     {
         $currentUser = Auth::user();
@@ -55,6 +59,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Store the user resources
+     */
     public function store(StoreUserRequest $request)
     {
         $currentUser = Auth::user();
@@ -86,6 +93,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    /**
+     * Show the user resources
+     */
     public function show(User $user)
     {
         $currentUser = Auth::user();
@@ -120,6 +130,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
+    /**
+     * Update the user resources
+     */
     public function update(UpdateUserRequest $request, User $user)
     {
         $currentUser = Auth::user();
@@ -177,6 +190,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Destroy the user resources
+     */
     public function destroy(User $user)
     {
         $currentUser = Auth::user();
@@ -210,6 +226,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Get the user site
+     */
     public function getUserSite($id)
     {
         $user = User::findOrFail($id);

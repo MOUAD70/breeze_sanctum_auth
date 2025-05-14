@@ -18,4 +18,14 @@ class Incident extends Model
         'description',
         'status'
     ];
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    public function reporter()
+    {
+        return $this->belongsTo(User::class, 'reported_by');
+    }
 }

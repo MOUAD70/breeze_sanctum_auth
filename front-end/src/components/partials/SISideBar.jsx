@@ -11,6 +11,12 @@ import {
   ScanSearch,
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import {
+  SSIAP_1_ATTENDANCE_ROUTE,
+  SSIAP_1_DASHBOARD_ROUTE,
+  SSIAP_1_INCIDENTS_ROUTE,
+  SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+} from "../../routes";
 const SISideBar = () => {
   const data = {
     navMain: [
@@ -22,7 +28,7 @@ const SISideBar = () => {
         items: [
           {
             title: "Overview",
-            url: "#",
+            url: SSIAP_1_DASHBOARD_ROUTE,
           },
         ],
       },
@@ -33,7 +39,7 @@ const SISideBar = () => {
         items: [
           {
             title: "Mark Your Attendance",
-            url: "#",
+            url: SSIAP_1_ATTENDANCE_ROUTE,
           },
         ],
       },
@@ -44,7 +50,11 @@ const SISideBar = () => {
         items: [
           {
             title: "Incidents Details",
-            url: "#",
+            url: SSIAP_1_INCIDENTS_ROUTE,
+          },
+          {
+            title: "Incidents Sites And Teams",
+            url: SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
         ],
       },

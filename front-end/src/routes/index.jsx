@@ -13,6 +13,11 @@ import AddEmployeeForm from "../components/ssiap-3/ManageEmployees/AddEmployeeFo
 import AddEmployeeFormII from "../components/ssiap-2/ManageEmployees/AddEmployeeFormII";
 import EditEmployeeForm from "../components/ssiap-3/ManageEmployees/EditEmployeeForm";
 import EditEmployeeFormII from "../components/ssiap-2/ManageEmployees/EditEmployeeFormII";
+import AttendancePageI from "../components/ssiap-1/ManageAttendance/AttendancePageI";
+import IncidentsDetailsSsi from "../components/ssiap-1/ManageIncidents/IncidentsDetailsSsi";
+import IncidentsSitesAndTeamsSsi from "../components/ssiap-1/ManageIncidents/IncidentsSitesAndTeamsSsi";
+import AddIncidentSsi from "../components/ssiap-1/ManageIncidents/AddIncidentSsi";
+import EditIncidentSsi from "../components/ssiap-1/ManageIncidents/EditIncidentSsi";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -28,6 +33,11 @@ export const LOGIN_ROUTE = "/login";
 export const UNAUTHORIZED = "/unauthorized";
 // SSIAP 1
 export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
+export const SSIAP_1_INCIDENTS_ROUTE = "/ssiap-1/incidents";
+export const SSIAP_1_ADD_INCIDENTS_ROUTE = "/ssiap-1/incidents/add";
+export const SSIAP_1_EDIT_INCIDENTS_ROUTE = "/ssiap-1/incidents/edit/:id";
+export const SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE = "/ssiap-1/incidentsSitesAndTeams";
+export const SSIAP_1_ATTENDANCE_ROUTE = "/ssiap-1/attendance";
 
 // SSIAP 2
 export const SSIAP_2_DASHBOARD_ROUTE = "/ssiap-2/dashboard";
@@ -61,6 +71,46 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={1}>
             <SIDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_1_ATTENDANCE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={1}>
+            <AttendancePageI />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_1_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={1}>
+            <IncidentsDetailsSsi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_1_ADD_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={1}>
+            <AddIncidentSsi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_1_EDIT_INCIDENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={1}>
+            <EditIncidentSsi />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={1}>
+            <IncidentsSitesAndTeamsSsi />
           </ProtectedRoute>
         ),
       },

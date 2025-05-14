@@ -87,11 +87,7 @@ const SIIISideBar = () => {
             url: "#",
           },
           {
-            title: "Incidents Sites",
-            url: "#",
-          },
-          {
-            title: "Incidents Teams",
+            title: "Incidents Sites And Teams",
             url: "#",
           },
         ],

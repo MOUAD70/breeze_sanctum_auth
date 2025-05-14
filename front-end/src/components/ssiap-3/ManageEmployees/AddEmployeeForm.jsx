@@ -389,7 +389,7 @@ const AddEmployeeForm = () => {
                           <Input
                             type="text"
                             value={currentUser.site?.site_name || "Your site"}
-                            className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg pl-10 bg-gray-100"
+                            className="border-gray-300 h-11 text-gray-900 rounded-lg pl-10 bg-gray-100"
                             readOnly
                           />
                           <input type="hidden" {...field} />

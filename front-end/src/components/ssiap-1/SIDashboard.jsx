@@ -6,11 +6,14 @@ import {
   User,
   AlertTriangle,
   Calendar,
-  Loader2,
+  CheckCheck,
 } from "lucide-react";
 import SsiApi from "../../services/api/SsiApi";
 import { useUserContext } from "../../context/UserContext";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Link } from "react-router-dom";
+import { SSIAP_1_INCIDENTS_ROUTE } from "../../routes";
+import { SSIAP_1_ATTENDANCE_ROUTE } from "../../routes";
 
 const SIDashboard = () => {
   const { user } = useUserContext();
@@ -252,14 +255,20 @@ const SIDashboard = () => {
                 </h2>
               </div>
               <div className="p-5 space-y-3">
-                <button className="w-full py-3 bg-red-50 hover:bg-red-100 text-red-800 rounded-lg transition-colors flex items-center justify-center cursor-pointer">
+                <Link
+                  to={SSIAP_1_INCIDENTS_ROUTE}
+                  className="w-full py-3 bg-red-50 hover:bg-red-100 text-red-800 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                >
                   <AlertTriangle className="h-4 w-4 mr-2" />
                   <span>Report Incident</span>
-                </button>
-                <button className="w-full py-3 bg-sky-50 hover:bg-sky-100 text-sky-800 rounded-lg transition-colors flex items-center justify-center cursor-pointer">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span>View Schedule</span>
-                </button>
+                </Link>
+                <Link
+                  to={SSIAP_1_ATTENDANCE_ROUTE}
+                  className="w-full py-3 bg-sky-50 hover:bg-sky-100 text-sky-800 rounded-lg transition-colors flex items-center justify-center cursor-pointer"
+                >
+                  <CheckCheck className="h-4 w-4 mr-2" />
+                  <span>Mark Your Attendance</span>
+                </Link>
               </div>
             </div>
           </div>
