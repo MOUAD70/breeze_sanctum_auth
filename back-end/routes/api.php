@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/sites/{site}', [SiteController::class, 'show']);
     Route::put('/sites/{site}', [SiteController::class, 'update']);
     Route::delete('/sites/{site}', [SiteController::class, 'destroy']);
+    Route::get('/sites-analytics', [SiteController::class, 'analytics']);
 });
 
 // TEAM ASSIGNMENTS ROUTES

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  AlertCircle,
   AlertTriangle,
   ArrowLeft,
   Calendar,
@@ -197,36 +196,40 @@ const AddIncidentSsii = () => {
                 onChange={handleChange}
                 required
                 placeholder="E.g., Fire Alarm, Security Breach, etc."
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                <Calendar className="h-4 w-4 inline mx-1 mb-1" />
-                Incident Date
-              </label>
-              <Input
-                type="date"
-                name="incident_date"
-                value={formData.incident_date}
-                onChange={handleChange}
-                required
                 className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">
-                <Clock className="h-4 w-4 inline mx-1 mb-1" />
-                Incident Time
-              </label>
-              <Input
-                type="time"
-                name="incident_time"
-                value={formData.incident_time}
-                onChange={handleChange}
-                required
-                className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  <Calendar className="h-4 w-4 inline mx-1 mb-1" />
+                  Incident Date
+                </label>
+                <Input
+                  type="date"
+                  name="incident_date"
+                  value={formData.incident_date}
+                  onChange={handleChange}
+                  required
+                  className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  <Clock className="h-4 w-4 inline mx-1 mb-1" />
+                  Incident Time
+                </label>
+                <Input
+                  type="time"
+                  name="incident_time"
+                  value={formData.incident_time}
+                  onChange={handleChange}
+                  required
+                  className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors"
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -260,10 +263,10 @@ const AddIncidentSsii = () => {
                 </Select>
               )}
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
-                  <AlertTriangle className="h-4 w-4 inline mx-1 mb-1" />
                   Severity
                 </label>
                 <Select
@@ -274,7 +277,7 @@ const AddIncidentSsii = () => {
                   required
                 >
                   <SelectTrigger className="bg-white border-gray-300 h-11 text-gray-900 rounded-lg focus:border-gray-600 focus:ring-1 focus:ring-gray-200 hover:border-gray-400 transition-colors">
-                    <SelectValue placeholder="Select severity" />
+                    <SelectValue placeholder="Select severity level" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Low">Low</SelectItem>
@@ -286,7 +289,6 @@ const AddIncidentSsii = () => {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
-                <AlertCircle className="h-4 w-4 inline mx-1 mb-1" />
                   Status
                 </label>
                 <Select
@@ -305,6 +307,7 @@ const AddIncidentSsii = () => {
                 </Select>
               </div>
             </div>
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
                 Description

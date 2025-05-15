@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
+  MapPinHouse,
   MessageCircleWarning,
   ScanSearch,
 } from "lucide-react";
@@ -16,6 +17,7 @@ import {
   SSIAP_1_DASHBOARD_ROUTE,
   SSIAP_1_INCIDENTS_ROUTE,
   SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+  SSIAP_1_SITES_ROUTE
 } from "../../routes";
 const SISideBar = () => {
   const data = {
@@ -56,6 +58,17 @@ const SISideBar = () => {
             title: "Incidents Sites And Teams",
             url: SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
+        ],
+      },
+      {
+        title: "Sites",
+        url: "#",
+        icon: MapPinHouse,
+        items: [
+          {
+            title: "Sites Details",
+            url: SSIAP_1_SITES_ROUTE,
+          }
         ],
       },
     ],

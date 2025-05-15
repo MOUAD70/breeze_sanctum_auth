@@ -8,6 +8,7 @@ import {
 import {
   CalendarClock,
   LayoutDashboard,
+  MapPinHouse,
   MessageCircleWarning,
   ScanSearch,
   Users,
@@ -18,6 +19,7 @@ import {
   SSIAP_2_DASHBOARD_ROUTE,
   SSIAP_2_EMPLOYEES_ROUTE,
   SSIAP_2_INCIDENTS_ROUTE,
+  SSIAP_2_SITES_ROUTE
 } from "../../routes";
 const SIISideBar = () => {
   const data = {
@@ -92,6 +94,17 @@ const SIISideBar = () => {
             title: "Incidents Sites And Teams",
             url: SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
+        ],
+      },
+      {
+        title: "Sites",
+        url: "#",
+        icon: MapPinHouse,
+        items: [
+          {
+            title: "Sites Details",
+            url: SSIAP_2_SITES_ROUTE,
+          }
         ],
       },
     ],

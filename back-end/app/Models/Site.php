@@ -14,9 +14,9 @@ class Site extends Model
     protected $fillable = [
         'site_name',
         'site_type',
-        'address'
+        'address',
+        'description',
     ];
-
     /**
      * Get the users for the site.
      */

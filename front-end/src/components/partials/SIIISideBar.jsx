@@ -12,6 +12,7 @@ import {
   MessageCircleWarning,
   Users,
   ScanSearch,
+  MapPinHouse,
 } from "lucide-react";
 import {
   SSIAP_3_ATTENDANCE_ROUTE,
@@ -20,6 +21,7 @@ import {
   SSIAP_3_INCIDENTS_ROUTE,
   SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
   SSIAP_3_REPLACEMENT_ROUTE,
+  SSIAP_3_SITES_ROUTE,
   SSIAP_3_VACATIONS_ROUTE,
 } from "../../routes";
 const SIIISideBar = () => {
@@ -91,6 +93,17 @@ const SIIISideBar = () => {
           {
             title: "Incidents Sites And Teams",
             url: SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
+          },
+        ],
+      },
+      {
+        title: "Sites",
+        url: "#",
+        icon: MapPinHouse,
+        items: [
+          {
+            title: "Sites Details",
+            url: SSIAP_3_SITES_ROUTE,
           },
         ],
       },

@@ -49,6 +49,9 @@ const SsiApi = {
   deleteSite: async (id) => {
     return axiosClient.delete(`/api/sites/${id}`);
   },
+  getSitesAnalytics: async () => {
+    return axiosClient.get("/api/sites-analytics");
+  },
 
   // Incidents CRUD API
   getIncidents: async (params = {}) => {
