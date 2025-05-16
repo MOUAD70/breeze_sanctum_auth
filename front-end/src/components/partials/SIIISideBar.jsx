@@ -15,11 +15,11 @@ import {
   MapPinHouse,
 } from "lucide-react";
 import {
+  SSIAP_3_ASSIGNMENTS_ROUTE,
   SSIAP_3_ATTENDANCE_ROUTE,
   SSIAP_3_DASHBOARD_ROUTE,
   SSIAP_3_EMPLOYEES_ROUTE,
   SSIAP_3_INCIDENTS_ROUTE,
-  SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
   SSIAP_3_REPLACEMENT_ROUTE,
   SSIAP_3_SITES_ROUTE,
   SSIAP_3_VACATIONS_ROUTE,
@@ -77,7 +77,7 @@ const SIIISideBar = () => {
         items: [
           {
             title: "Shifts details",
-            url: "#",
+            url: SSIAP_3_ASSIGNMENTS_ROUTE,
           },
         ],
       },
@@ -89,10 +89,6 @@ const SIIISideBar = () => {
           {
             title: "Incidents Details",
             url: SSIAP_3_INCIDENTS_ROUTE,
-          },
-          {
-            title: "Incidents Sites And Teams",
-            url: SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
         ],
       },

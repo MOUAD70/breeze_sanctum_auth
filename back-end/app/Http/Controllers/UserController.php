@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -96,38 +97,50 @@ class UserController extends Controller
     /**
      * Show the user resources
      */
-    public function show(User $user)
+    public function show($id)
     {
-        $currentUser = Auth::user();
+        try {
+            // Find the user by ID or return 404
+            $user = User::findOrFail($id);
 
-        if ($currentUser->ssiap_level === 1) {
-            if ($currentUser->id !== $user->id) {
-                return response()->json([
-                    'message' => 'Unauthorized to view this user'
-                ], 403);
+            $currentUser = Auth::user();
+
+            if ($currentUser->ssiap_level === 1) {
+                if ($currentUser->id != $user->id) {
+                    return response()->json([
+                        'message' => 'Unauthorized to view this user'
+                    ], 403);
+                }
+            } else if ($currentUser->ssiap_level === 2) {
+                if (
+                    $currentUser->id != $user->id &&
+                    ($user->ssiap_level != 1 || $user->site_id != $currentUser->site_id)
+                ) {
+                    return response()->json([
+                        'message' => 'Unauthorized to view this user'
+                    ], 403);
+                }
+            } else if ($currentUser->ssiap_level === 3) {
+                if ($user->ssiap_level === 3 && $currentUser->id != $user->id) {
+                    return response()->json([
+                        'message' => 'Unauthorized to view this user'
+                    ], 403);
+                }
             }
-        } else if ($currentUser->ssiap_level === 2) {
-            if (
-                $currentUser->id !== $user->id &&
-                ($user->ssiap_level !== 1 || $user->site_id !== $currentUser->site_id)
-            ) {
-                return response()->json([
-                    'message' => 'Unauthorized to view this user'
-                ], 403);
+
+            // Load the site relationship if site_id exists
+            if ($user->site_id) {
+                $user->load('site');
             }
-        } else if ($currentUser->ssiap_level === 3) {
-            if ($user->ssiap_level === 3 && $currentUser->id !== $user->id) {
-                return response()->json([
-                    'message' => 'Unauthorized to view this user'
-                ], 403);
-            }
+
+            return new UserResource($user);
+        } catch (\Exception $e) {
+            Log::error('Error in UserController@show: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Error retrieving user data',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        if ($user->site_id) {
-            $user->load('site');
-        }
-
-        return new UserResource($user);
     }
 
     /**

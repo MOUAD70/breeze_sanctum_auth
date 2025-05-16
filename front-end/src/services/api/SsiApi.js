@@ -14,7 +14,13 @@ const SsiApi = {
 
   // Users CRUD API
   getOneUser: async (id) => {
-    return axiosClient.get(`/api/users/${id}`);
+    try {
+      const response = await axiosClient.get(`/api/users/${id}`);
+      return response;
+    } catch (error) {
+      console.error(`Error fetching user with ID ${id}:`, error);
+      throw error;
+    }
   },
   getAllUsers: async (params = {}) => {
     return axiosClient.get("/api/users", { params });
@@ -73,6 +79,21 @@ const SsiApi = {
   // Current User Assignments API
   getCurrentUserAssignments: async () => {
     return axiosClient.get("/api/assignments/current");
+  },
+  getAllAssignments: async (params = {}) => {
+    return axiosClient.get("/api/assignments", { params });
+  },
+  getOneAssignment: async (id) => {
+    return axiosClient.get(`/api/assignments/${id}`);
+  },
+  createAssignment: async (assignmentData) => {
+    return axiosClient.post("/api/assignments", assignmentData);
+  },
+  updateAssignment: async (id, assignmentData) => {
+    return axiosClient.put(`/api/assignments/${id}`, assignmentData);
+  },
+  deleteAssignment: async (id) => {
+    return axiosClient.delete(`/api/assignments/${id}`);
   },
 };
 

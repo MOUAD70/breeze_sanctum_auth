@@ -14,18 +14,15 @@ import AddEmployeeFormII from "../components/ssiap-2/ManageEmployees/AddEmployee
 import EditEmployeeForm from "../components/ssiap-3/ManageEmployees/EditEmployeeForm";
 import EditEmployeeFormII from "../components/ssiap-2/ManageEmployees/EditEmployeeFormII";
 import IncidentsDetailsSsi from "../components/ssiap-1/ManageIncidents/IncidentsDetailsSsi";
-import IncidentsSitesAndTeamsSsi from "../components/ssiap-1/ManageIncidents/IncidentsSitesAndTeamsSsi";
 import AddIncidentSsi from "../components/ssiap-1/ManageIncidents/AddIncidentSsi";
 import EditIncidentSsi from "../components/ssiap-1/ManageIncidents/EditIncidentSsi";
 import AttendanceDetailsSsi from "../components/ssiap-1/ManageAttendance/AttendanceDetailsSsi";
 import IncidentsDetailsSsii from "../components/ssiap-2/ManageIncidents/IncidentsDetailsSsii";
 import AddIncidentSsii from "../components/ssiap-2/ManageIncidents/AddIncidentSsii";
 import EditIncidentSsii from "../components/ssiap-2/ManageIncidents/EditIncidentSsii";
-import IncidentsSitesAndTeamsSsii from "../components/ssiap-2/ManageIncidents/IncidentsSitesAndTeamsSsii";
 import IncidentsDetailsSsiii from "../components/ssiap-3/ManageIncidents/IncidentsDetailsSsiii";
 import AddIncidentSsiii from "../components/ssiap-3/ManageIncidents/AddIncidentSsiii";
 import EditIncidentSsiii from "../components/ssiap-3/ManageIncidents/EditIncidentSsiii";
-import IncidentsSitesAndTeamsSsiii from "../components/ssiap-3/ManageIncidents/IncidentsSitesAndTeamsSsiii";
 import SitesDetailsSsi from "../components/ssiap-1/ManageSites/SitesDetailsSsi";
 import AddSiteSsii from "../components/ssiap-2/ManageSites/AddSiteSsii";
 import EditSiteSsii from "../components/ssiap-2/ManageSites/EditSiteSsii";
@@ -33,6 +30,9 @@ import SitesDetailsSsii from "../components/ssiap-2/ManageSites/SitesDetailsSsii
 import SitesDetailsSsiii from "../components/ssiap-3/ManageSites/SitesDetailsSsiii";
 import AddSiteSsiii from "../components/ssiap-3/ManageSites/AddSiteSsiii";
 import EditSiteSsiii from "../components/ssiap-3/ManageSites/EditSiteSsiii";
+import ShiftDetailsSsiii from "../components/ssiap-3/ManageShifts/ShiftDetailsSsiii";
+import AddShiftSsiii from "../components/ssiap-3/ManageShifts/AddShiftSsiii";
+import EditShiftSsiii from "../components/ssiap-3/ManageShifts/EditShiftSsiii";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -51,8 +51,6 @@ export const SSIAP_1_DASHBOARD_ROUTE = "/ssiap-1/dashboard";
 export const SSIAP_1_INCIDENTS_ROUTE = "/ssiap-1/incidents";
 export const SSIAP_1_ADD_INCIDENTS_ROUTE = "/ssiap-1/incidents/add";
 export const SSIAP_1_EDIT_INCIDENTS_ROUTE = "/ssiap-1/incidents/edit/:id";
-export const SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE =
-  "/ssiap-1/incidentsSitesAndTeams";
 export const SSIAP_1_ATTENDANCE_ROUTE = "/ssiap-1/attendance";
 export const SSIAP_1_SITES_ROUTE = "/ssiap-1/sites";
 
@@ -64,8 +62,6 @@ export const SSIAP_2_EDIT_EMPLOYEE_ROUTE = "/ssiap-2/employees/edit/:id";
 export const SSIAP_2_INCIDENTS_ROUTE = "/ssiap-2/incidents";
 export const SSIAP_2_ADD_INCIDENTS_ROUTE = "/ssiap-2/incidents/add";
 export const SSIAP_2_EDIT_INCIDENTS_ROUTE = "/ssiap-2/incidents/edit/:id";
-export const SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE =
-  "/ssiap-2/incidentsSitesAndTeams";
 export const SSIAP_2_SITES_ROUTE = "/ssiap-2/sites";
 export const SSIAP_2_ADD_SITE_ROUTE = "/ssiap-2/sites/add";
 export const SSIAP_2_EDIT_SITE_ROUTE = "/ssiap-2/sites/edit/:id";
@@ -81,11 +77,12 @@ export const SSIAP_3_EDIT_EMPLOYEE_ROUTE = "/ssiap-3/employees/edit/:id";
 export const SSIAP_3_INCIDENTS_ROUTE = "/ssiap-3/incidents";
 export const SSIAP_3_ADD_INCIDENTS_ROUTE = "/ssiap-3/incidents/add";
 export const SSIAP_3_EDIT_INCIDENTS_ROUTE = "/ssiap-3/incidents/edit/:id";
-export const SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE =
-  "/ssiap-3/incidentsSitesAndTeams";
 export const SSIAP_3_SITES_ROUTE = "/ssiap-3/sites";
 export const SSIAP_3_ADD_SITE_ROUTE = "/ssiap-3/sites/add";
 export const SSIAP_3_EDIT_SITE_ROUTE = "/ssiap-3/sites/edit/:id";
+export const SSIAP_3_ASSIGNMENTS_ROUTE = "/ssiap-3/assignments";
+export const SSIAP_3_ADD_ASSIGNMENT_ROUTE = "/ssiap-3/assignments/add";
+export const SSIAP_3_EDIT_ASSIGNMENT_ROUTE = "/ssiap-3/assignments/edit/:id";
 
 export const routes = createBrowserRouter([
   {
@@ -136,14 +133,6 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={1}>
             <EditIncidentSsi />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
-        element: (
-          <ProtectedRoute requiredLevel={1}>
-            <IncidentsSitesAndTeamsSsi />
           </ProtectedRoute>
         ),
       },
@@ -213,14 +202,6 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <EditIncidentSsii />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
-        element: (
-          <ProtectedRoute requiredLevel={2}>
-            <IncidentsSitesAndTeamsSsii />
           </ProtectedRoute>
         ),
       },
@@ -334,14 +315,6 @@ export const routes = createBrowserRouter([
         ),
       },
       {
-        path: SSIAP_3_INCIDENTS_SITES_AND_TEAMS_ROUTE,
-        element: (
-          <ProtectedRoute requiredLevel={3}>
-            <IncidentsSitesAndTeamsSsiii />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: SSIAP_3_SITES_ROUTE,
         element: (
           <ProtectedRoute requiredLevel={3}>
@@ -362,6 +335,30 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={3}>
             <EditSiteSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_ASSIGNMENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <ShiftDetailsSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_ADD_ASSIGNMENT_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <AddShiftSsiii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_3_EDIT_ASSIGNMENT_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={3}>
+            <EditShiftSsiii />
           </ProtectedRoute>
         ),
       },

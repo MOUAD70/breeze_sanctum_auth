@@ -16,8 +16,7 @@ import {
   SSIAP_1_ATTENDANCE_ROUTE,
   SSIAP_1_DASHBOARD_ROUTE,
   SSIAP_1_INCIDENTS_ROUTE,
-  SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
-  SSIAP_1_SITES_ROUTE
+  SSIAP_1_SITES_ROUTE,
 } from "../../routes";
 const SISideBar = () => {
   const data = {
@@ -54,10 +53,6 @@ const SISideBar = () => {
             title: "Incidents Details",
             url: SSIAP_1_INCIDENTS_ROUTE,
           },
-          {
-            title: "Incidents Sites And Teams",
-            url: SSIAP_1_INCIDENTS_SITES_AND_TEAMS_ROUTE,
-          },
         ],
       },
       {
@@ -68,7 +63,7 @@ const SISideBar = () => {
           {
             title: "Sites Details",
             url: SSIAP_1_SITES_ROUTE,
-          }
+          },
         ],
       },
     ],

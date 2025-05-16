@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import {
-  SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
   SSIAP_2_DASHBOARD_ROUTE,
   SSIAP_2_EMPLOYEES_ROUTE,
   SSIAP_2_INCIDENTS_ROUTE,
@@ -89,10 +88,6 @@ const SIISideBar = () => {
           {
             title: "Incidents Details",
             url: SSIAP_2_INCIDENTS_ROUTE,
-          },
-          {
-            title: "Incidents Sites And Teams",
-            url: SSIAP_2_INCIDENTS_SITES_AND_TEAMS_ROUTE,
           },
         ],
       },

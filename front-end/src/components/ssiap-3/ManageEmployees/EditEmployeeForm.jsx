@@ -67,19 +67,40 @@ const EditEmployeeForm = () => {
     const fetchEmployeeData = async () => {
       try {
         setLoading(true);
+        setError(null);
+
+        if (!id) {
+          throw new Error("No employee ID provided");
+        }
+
         const response = await SsiApi.getOneUser(id);
+
+        if (!response || !response.data) {
+          throw new Error("No data received from server");
+        }
+
         const userData = response.data;
 
         form.reset({
           name: userData.name || "",
           email: userData.email || "",
           phone_number: userData.phone_number || "",
-          ssiap_level: userData.ssiap_level || 1,
+          ssiap_level: userData.ssiap_level
+            ? parseInt(userData.ssiap_level)
+            : 1,
           site_id: userData.site_id ? userData.site_id.toString() : "",
         });
       } catch (err) {
         console.error("Error fetching employee:", err);
-        setError("Failed to load employee data");
+        let errorMessage = "Failed to load employee data";
+
+        if (err.response && err.response.data && err.response.data.message) {
+          errorMessage = err.response.data.message;
+        } else if (err.message) {
+          errorMessage = err.message;
+        }
+
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -123,6 +144,7 @@ const EditEmployeeForm = () => {
 
     try {
       await SsiApi.updateUser(id, data);
+      console.log(data);
       navigate(SSIAP_3_EMPLOYEES_ROUTE);
     } catch (err) {
       const errorMessage =

@@ -30,6 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
 // TEAM ASSIGNMENTS ROUTES
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/assignments/current', [EmployeeTeamAssignmentController::class, 'getCurrentUserAssignments']);
+    Route::get('/assignments', [EmployeeTeamAssignmentController::class, 'index']);
+    Route::post('/assignments', [EmployeeTeamAssignmentController::class, 'store']);
+    Route::get('/assignments/{id}', [EmployeeTeamAssignmentController::class, 'show']);
+    Route::put('/assignments/{id}', [EmployeeTeamAssignmentController::class, 'update']);
+    Route::delete('/assignments/{id}', [EmployeeTeamAssignmentController::class, 'destroy']);
 });
 
 // USER ROUTES
