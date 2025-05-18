@@ -15,10 +15,11 @@ import {
 } from "lucide-react";
 import { Outlet } from "react-router-dom";
 import {
+  SSIAP_2_ASSIGNMENTS_ROUTE,
   SSIAP_2_DASHBOARD_ROUTE,
   SSIAP_2_EMPLOYEES_ROUTE,
   SSIAP_2_INCIDENTS_ROUTE,
-  SSIAP_2_SITES_ROUTE
+  SSIAP_2_SITES_ROUTE,
 } from "../../routes";
 const SIISideBar = () => {
   const data = {
@@ -76,7 +77,7 @@ const SIISideBar = () => {
         items: [
           {
             title: "Shifts details",
-            url: "#",
+            url: SSIAP_2_ASSIGNMENTS_ROUTE,
           },
         ],
       },
@@ -99,7 +100,7 @@ const SIISideBar = () => {
           {
             title: "Sites Details",
             url: SSIAP_2_SITES_ROUTE,
-          }
+          },
         ],
       },
     ],

@@ -33,6 +33,9 @@ import EditSiteSsiii from "../components/ssiap-3/ManageSites/EditSiteSsiii";
 import ShiftDetailsSsiii from "../components/ssiap-3/ManageShifts/ShiftDetailsSsiii";
 import AddShiftSsiii from "../components/ssiap-3/ManageShifts/AddShiftSsiii";
 import EditShiftSsiii from "../components/ssiap-3/ManageShifts/EditShiftSsiii";
+import EditShiftSsii from "../components/ssiap-2/ManageShifts/EditShiftSsii";
+import AddShiftSsii from "../components/ssiap-2/ManageShifts/AddShiftSsii";
+import ShiftDetailsSsii from "../components/ssiap-2/ManageShifts/ShiftDetailsSsii";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -65,6 +68,9 @@ export const SSIAP_2_EDIT_INCIDENTS_ROUTE = "/ssiap-2/incidents/edit/:id";
 export const SSIAP_2_SITES_ROUTE = "/ssiap-2/sites";
 export const SSIAP_2_ADD_SITE_ROUTE = "/ssiap-2/sites/add";
 export const SSIAP_2_EDIT_SITE_ROUTE = "/ssiap-2/sites/edit/:id";
+export const SSIAP_2_ASSIGNMENTS_ROUTE = "/ssiap-2/assignments";
+export const SSIAP_2_ADD_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/add";
+export const SSIAP_2_EDIT_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/edit/:id";
 
 // SSIAP 3
 export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
@@ -226,6 +232,30 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <EditSiteSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_ASSIGNMENTS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <ShiftDetailsSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_ADD_ASSIGNMENT_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <AddShiftSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_EDIT_ASSIGNMENT_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <EditShiftSsii />
           </ProtectedRoute>
         ),
       },

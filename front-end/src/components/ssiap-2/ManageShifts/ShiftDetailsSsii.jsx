@@ -29,12 +29,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  SSIAP_3_ADD_ASSIGNMENT_ROUTE,
-  SSIAP_3_EDIT_ASSIGNMENT_ROUTE,
+  SSIAP_2_ADD_ASSIGNMENT_ROUTE,
+  SSIAP_2_EDIT_ASSIGNMENT_ROUTE,
 } from "../../../routes";
 import { Link } from "react-router-dom";
 
-const ShiftDetailsSsiii = () => {
+const ShiftDetailsSsii = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const [assignments, setAssignments] = useState([]);
@@ -266,7 +266,7 @@ const ShiftDetailsSsiii = () => {
           </div>
 
           <div className="flex justify-end mb-4">
-            <Link to={SSIAP_3_ADD_ASSIGNMENT_ROUTE}>
+            <Link to={SSIAP_2_ADD_ASSIGNMENT_ROUTE}>
               <button className="items-center bg-sky-900 text-white hover:bg-sky-950 transition-colors duration-150 py-2.5 px-4 text-[16px] rounded-4xl cursor-pointer border-0 outline-0 inline-flex justify-center align-center">
                 <Plus className="h-4 w-4 mr-2" />
                 Add New Assignment
@@ -325,7 +325,7 @@ const ShiftDetailsSsiii = () => {
                     </div>
                     <div className="flex space-x-1">
                       <Link
-                        to={SSIAP_3_EDIT_ASSIGNMENT_ROUTE.replace(
+                        to={SSIAP_2_EDIT_ASSIGNMENT_ROUTE.replace(
                           ":id",
                           assignment.id
                         )}
@@ -414,4 +414,4 @@ const ShiftDetailsSsiii = () => {
   );
 };
 
-export default ShiftDetailsSsiii;
+export default ShiftDetailsSsii;

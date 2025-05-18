@@ -95,6 +95,26 @@ const SsiApi = {
   deleteAssignment: async (id) => {
     return axiosClient.delete(`/api/assignments/${id}`);
   },
+
+  // Teams CRUD API
+  getTeams: async () => {
+    return axiosClient.get("/api/teams");
+  },
+  getOneTeam: async (id) => {
+    return axiosClient.get(`/api/teams/${id}`);
+  },
+  getTeamMembers: async (id) => {
+    return axiosClient.get(`/api/teams/${id}/members`);
+  },
+  createTeam: async (teamData) => {
+    return axiosClient.post("/api/teams", teamData);
+  },
+  updateTeam: async (id, teamData) => {
+    return axiosClient.put(`/api/teams/${id}`, teamData);
+  },
+  deleteTeam: async (id) => {
+    return axiosClient.delete(`/api/teams/${id}`);
+  },
 };
 
 export default SsiApi;

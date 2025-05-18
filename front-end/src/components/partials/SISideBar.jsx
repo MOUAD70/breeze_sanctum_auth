@@ -6,6 +6,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
+  CalendarClock,
   LayoutDashboard,
   MapPinHouse,
   MessageCircleWarning,

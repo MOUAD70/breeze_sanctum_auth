@@ -21,11 +21,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SSIAP_3_ASSIGNMENTS_ROUTE } from "../../../routes";
+import { SSIAP_2_ASSIGNMENTS_ROUTE } from "../../../routes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 
-const EditShiftSsiii = () => {
+const EditShiftSsii = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useUserContext();
@@ -135,7 +135,7 @@ const EditShiftSsiii = () => {
       };
 
       await SsiApi.updateAssignment(id, submissionData);
-      navigate(SSIAP_3_ASSIGNMENTS_ROUTE);
+      navigate(SSIAP_2_ASSIGNMENTS_ROUTE);
     } catch (err) {
       setError(
         err.response?.data?.message || "Failed to update shift assignment"
@@ -187,7 +187,7 @@ const EditShiftSsiii = () => {
         <p className="text-gray-700">{error}</p>
         <div className="mt-6">
           <Link
-            to={SSIAP_3_ASSIGNMENTS_ROUTE}
+            to={SSIAP_2_ASSIGNMENTS_ROUTE}
             className="text-blue-600 hover:text-blue-800"
           >
             Back to Shifts
@@ -200,7 +200,7 @@ const EditShiftSsiii = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <Link
-        to={SSIAP_3_ASSIGNMENTS_ROUTE}
+        to={SSIAP_2_ASSIGNMENTS_ROUTE}
         className="fixed bottom-6 left-6 bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full shadow-md transition-colors duration-200"
       >
         <ArrowLeft className="h-5 w-5" />
@@ -332,7 +332,7 @@ const EditShiftSsiii = () => {
 
             <div className="pt-4 border-t border-gray-100 flex justify-between">
               <Link
-                to={SSIAP_3_ASSIGNMENTS_ROUTE}
+                to={SSIAP_2_ASSIGNMENTS_ROUTE}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-4xl transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -361,4 +361,4 @@ const EditShiftSsiii = () => {
   );
 };
 
-export default EditShiftSsiii;
+export default EditShiftSsii;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   Loader2,
@@ -21,95 +21,72 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SSIAP_3_ASSIGNMENTS_ROUTE } from "../../../routes";
+import { SSIAP_2_ASSIGNMENTS_ROUTE } from "../../../routes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
 
-const EditShiftSsiii = () => {
-  const { id } = useParams();
+const AddShiftSsii = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [teams, setTeams] = useState([]);
   const [sites, setSites] = useState([]);
   const [formData, setFormData] = useState({
     employee_id: "",
     team_id: "",
-    shift_date: "",
-    shift_start_time: "",
-    shift_end_time: "",
+    shift_date: format(new Date(), "yyyy-MM-dd"),
+    shift_start_time: "09:00",
+    shift_end_time: "17:00",
   });
 
   useEffect(() => {
-    const fetchShift = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const response = await SsiApi.getOneAssignment(id);
-        const shift = response.data;
+        // Fetch employees
+        const employeesResponse = await SsiApi.getAllUsers();
 
-        // Convert ISO datetime to date and time parts
-        const startDate = new Date(shift.shift_start);
-        const endDate = new Date(shift.shift_end);
+        // Handle paginated response structure
+        let employeesList;
+        if (Array.isArray(employeesResponse.data)) {
+          employeesList = employeesResponse.data;
+        } else if (
+          employeesResponse.data &&
+          Array.isArray(employeesResponse.data.data)
+        ) {
+          // If response.data.data is an array (paginated response)
+          employeesList = employeesResponse.data.data;
+        } else {
+          employeesList = [];
+        }
 
-        setFormData({
-          employee_id: shift.employee_id,
-          team_id: shift.team_id,
-          shift_date: format(startDate, "yyyy-MM-dd"),
-          shift_start_time: format(startDate, "HH:mm"),
-          shift_end_time: format(endDate, "HH:mm"),
-        });
+        // Filter to only include SSIAP level 1 and 2 users
+        const filteredEmployees = employeesList.filter(
+          (user) => user.ssiap_level === 1 || user.ssiap_level === 2
+        );
+        setEmployees(filteredEmployees);
+
+        // Fetch teams
+        const teamsResponse = await SsiApi.getTeams();
+        setTeams(teamsResponse.data);
+
+        // Fetch sites
+        const sitesResponse = await SsiApi.getSites();
+        setSites(sitesResponse.data);
       } catch (err) {
-        setError("Failed to load shift assignment");
-        console.error(err);
+        setError(
+          `Failed to load required data: ${err.message || "Unknown error"}`
+        );
       } finally {
         setLoading(false);
       }
     };
 
-    const fetchEmployees = async () => {
-      try {
-        const response = await SsiApi.getAllUsers();
-        // Check if response.data is an array or if it has a data property
-        if (Array.isArray(response.data)) {
-          setEmployees(response.data);
-        } else if (response.data && Array.isArray(response.data.data)) {
-          // If response.data.data is an array (paginated response)
-          setEmployees(response.data.data);
-        } else {
-          console.error("Unexpected response format:", response);
-          setEmployees([]);
-        }
-      } catch (err) {
-        console.error("Failed to load employees", err);
-        setEmployees([]);
-      }
-    };
-
-    const fetchTeams = async () => {
-      try {
-        const response = await SsiApi.getTeams();
-        setTeams(response.data);
-      } catch (err) {
-        console.error("Failed to load teams", err);
-      }
-    };
-
-    const fetchSites = async () => {
-      try {
-        const response = await SsiApi.getSites();
-        setSites(response.data);
-      } catch (err) {
-        console.error("Failed to load sites", err);
-      }
-    };
-
-    fetchShift();
-    fetchEmployees();
-    fetchTeams();
-    fetchSites();
-  }, [id]);
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,7 +99,7 @@ const EditShiftSsiii = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
+    setLoading(true);
     setError(null);
 
     try {
@@ -134,19 +111,24 @@ const EditShiftSsiii = () => {
         shift_end: `${formData.shift_date}T${formData.shift_end_time}:00`,
       };
 
-      await SsiApi.updateAssignment(id, submissionData);
-      navigate(SSIAP_3_ASSIGNMENTS_ROUTE);
+      await SsiApi.createAssignment(submissionData);
+      setSuccess(true);
+
+      // Redirect after short delay to show success message
+      setTimeout(() => {
+        navigate(SSIAP_2_ASSIGNMENTS_ROUTE);
+      }, 1500);
     } catch (err) {
       setError(
-        err.response?.data?.message || "Failed to update shift assignment"
+        err.response?.data?.message || "Failed to create shift assignment"
       );
       console.error(err);
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
-  if (loading) {
+  if (loading && employees.length === 0) {
     return (
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
@@ -170,28 +152,6 @@ const EditShiftSsiii = () => {
               ))}
             </div>
           </div>
-
-          <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between">
-            <Skeleton className="h-10 w-40 rounded-4xl" />
-            <Skeleton className="h-10 w-40 rounded-4xl" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error && !formData.employee_id) {
-    return (
-      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-bold text-red-600 mb-4">Error</h2>
-        <p className="text-gray-700">{error}</p>
-        <div className="mt-6">
-          <Link
-            to={SSIAP_3_ASSIGNMENTS_ROUTE}
-            className="text-blue-600 hover:text-blue-800"
-          >
-            Back to Shifts
-          </Link>
         </div>
       </div>
     );
@@ -200,7 +160,7 @@ const EditShiftSsiii = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <Link
-        to={SSIAP_3_ASSIGNMENTS_ROUTE}
+        to={SSIAP_2_ASSIGNMENTS_ROUTE}
         className="fixed bottom-6 left-6 bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full shadow-md transition-colors duration-200"
       >
         <ArrowLeft className="h-5 w-5" />
@@ -210,11 +170,11 @@ const EditShiftSsiii = () => {
         <div className="bg-gradient-to-r from-blue-50 to-white p-6 border-b border-gray-100">
           <div className="flex flex-col items-center justify-center">
             <h2 className="text-2xl font-bold text-gray-700 tracking-tight">
-              EDIT SHIFT ASSIGNMENT
+              ADD NEW SHIFT ASSIGNMENT
             </h2>
             <div className="mt-2 h-1 w-16 bg-gradient-to-r from-blue-300 to-blue-500 rounded-full" />
             <p className="text-gray-600 text-sm mt-3">
-              Update shift assignment details.
+              Create a new shift assignment for an employee.
             </p>
           </div>
         </div>
@@ -224,6 +184,15 @@ const EditShiftSsiii = () => {
             <div className="p-4 mb-6 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
               <AlertTriangle className="h-4 w-4 inline mr-2" />
               {error}
+              <div className="mt-2 text-xs text-red-600">
+                Please check the console for more details or try refreshing the
+                page.
+              </div>
+            </div>
+          )}
+          {success && (
+            <div className="p-4 mb-6 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+              Shift assignment created successfully! Redirecting...
             </div>
           )}
 
@@ -232,7 +201,7 @@ const EditShiftSsiii = () => {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center">
                   <User className="h-4 w-4 mr-1.5 text-gray-400" />
-                  Employee
+                  Employee {employees.length === 0 && "(Loading...)"}
                 </label>
                 <Select
                   value={formData.employee_id}
@@ -240,19 +209,32 @@ const EditShiftSsiii = () => {
                     handleSelectChange("employee_id", value)
                   }
                   required
+                  disabled={loading || success}
                 >
                   <SelectTrigger className="h-11 rounded-lg">
-                    <SelectValue placeholder="Select Employee" />
+                    <SelectValue
+                      placeholder={
+                        employees.length === 0
+                          ? "Loading employees..."
+                          : "Select Employee"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    {employees.map((employee) => (
-                      <SelectItem
-                        key={employee.id}
-                        value={employee.id.toString()}
-                      >
-                        {employee.name}
+                    {employees.length === 0 ? (
+                      <SelectItem value="loading" disabled>
+                        No employees available
                       </SelectItem>
-                    ))}
+                    ) : (
+                      employees.map((employee) => (
+                        <SelectItem
+                          key={employee.id}
+                          value={employee.id.toString()}
+                        >
+                          {employee.name}
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -260,7 +242,7 @@ const EditShiftSsiii = () => {
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700 flex items-center">
                   <Users className="h-4 w-4 mr-1.5 text-gray-400" />
-                  Team
+                  Team {teams.length === 0 && "(Loading...)"}
                 </label>
                 <Select
                   value={formData.team_id}
@@ -268,16 +250,27 @@ const EditShiftSsiii = () => {
                     handleSelectChange("team_id", value)
                   }
                   required
+                  disabled={loading || success}
                 >
                   <SelectTrigger className="h-11 rounded-lg">
-                    <SelectValue placeholder="Select Team" />
+                    <SelectValue
+                      placeholder={
+                        teams.length === 0 ? "Loading teams..." : "Select Team"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    {teams.map((team) => (
-                      <SelectItem key={team.id} value={team.id.toString()}>
-                        {team.team_name}
+                    {teams.length === 0 ? (
+                      <SelectItem value="loading" disabled>
+                        No teams available
                       </SelectItem>
-                    ))}
+                    ) : (
+                      teams.map((team) => (
+                        <SelectItem key={team.id} value={team.id.toString()}>
+                          {team.team_name}
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -294,6 +287,7 @@ const EditShiftSsiii = () => {
                   onChange={handleChange}
                   className="h-11 rounded-lg"
                   required
+                  disabled={loading || success}
                 />
               </div>
 
@@ -310,6 +304,7 @@ const EditShiftSsiii = () => {
                     onChange={handleChange}
                     className="h-11 rounded-lg"
                     required
+                    disabled={loading || success}
                   />
                 </div>
 
@@ -325,6 +320,7 @@ const EditShiftSsiii = () => {
                     onChange={handleChange}
                     className="h-11 rounded-lg"
                     required
+                    disabled={loading || success}
                   />
                 </div>
               </div>
@@ -332,7 +328,7 @@ const EditShiftSsiii = () => {
 
             <div className="pt-4 border-t border-gray-100 flex justify-between">
               <Link
-                to={SSIAP_3_ASSIGNMENTS_ROUTE}
+                to={SSIAP_2_ASSIGNMENTS_ROUTE}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-4xl transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -341,16 +337,16 @@ const EditShiftSsiii = () => {
 
               <Button
                 type="submit"
-                disabled={submitting}
+                disabled={loading || success}
                 className="text-white h-11 px-8 border hover:bg-sky-950 hover:border-sky-950 bg-sky-900 border-sky-900 hover:text-white font-medium rounded-4xl transition-colors duration-200 cursor-pointer"
               >
-                {submitting ? (
+                {loading ? (
                   <>
                     <Loader2 className="animate-spin h-4 w-4 mr-2" />
-                    <span className="text-sm">Updating...</span>
+                    <span className="text-sm">Creating...</span>
                   </>
                 ) : (
-                  <span className="text-sm tracking-wide">UPDATE SHIFT</span>
+                  <span className="text-sm tracking-wide">CREATE SHIFT</span>
                 )}
               </Button>
             </div>
@@ -361,4 +357,4 @@ const EditShiftSsiii = () => {
   );
 };
 
-export default EditShiftSsiii;
+export default AddShiftSsii;

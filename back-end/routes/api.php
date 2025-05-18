@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployeeTeamAssignmentController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,5 +48,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('incidents', IncidentController::class);
 });
 
+// TEAMS ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/teams', [TeamsController::class, 'index']);
+    Route::post('/teams', [TeamsController::class, 'store']);
+    Route::get('/teams/{id}', [TeamsController::class, 'show']);
+    Route::put('/teams/{id}', [TeamsController::class, 'update']);
+    Route::delete('/teams/{id}', [TeamsController::class, 'destroy']);
+    Route::get('/teams/{id}/members', [TeamsController::class, 'getTeamMembers']);
+});
 
 require __DIR__ . '/auth.php';
