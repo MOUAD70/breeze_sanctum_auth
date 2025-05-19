@@ -4,7 +4,7 @@ import ProtectedRoute from "./ProtectedRoutes";
 import GlobalLayout from "../layouts/GlobalLayout";
 import GuestLayout from "../layouts/GuestLayout";
 import Unauthorized from "../pages/errors/Unauthorized";
-import SIIIAttendance from "../components/ssiap-3/SIIIAttendance";
+import SIIIAttendance from "../components/ssiap-3/ManageAttendance/SIIIAttendance";
 import EmployeesList from "../components/ssiap-3/ManageEmployees/EmployeesList";
 import Replacement from "../components/ssiap-3/Replacement";
 import Vacations from "../components/ssiap-3/Vacations";
@@ -36,6 +36,8 @@ import EditShiftSsiii from "../components/ssiap-3/ManageShifts/EditShiftSsiii";
 import EditShiftSsii from "../components/ssiap-2/ManageShifts/EditShiftSsii";
 import AddShiftSsii from "../components/ssiap-2/ManageShifts/AddShiftSsii";
 import ShiftDetailsSsii from "../components/ssiap-2/ManageShifts/ShiftDetailsSsii";
+import SIIAttendance from "../components/ssiap-2/ManageAttendance/SIIAttendance";
+import AttendanceDetailsSsii from "../components/ssiap-2/ManageAttendance/AttendanceDetailsSsii";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -71,6 +73,8 @@ export const SSIAP_2_EDIT_SITE_ROUTE = "/ssiap-2/sites/edit/:id";
 export const SSIAP_2_ASSIGNMENTS_ROUTE = "/ssiap-2/assignments";
 export const SSIAP_2_ADD_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/add";
 export const SSIAP_2_EDIT_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/edit/:id";
+export const SSIAP_2_ATTENDANCE_ROUTE = "/ssiap-2/attendance";
+export const SSIAP_2_MARK_ATTENDANCE_ROUTE = "/ssiap-2/attendance/mark";
 
 // SSIAP 3
 export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
@@ -256,6 +260,22 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <EditShiftSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_ATTENDANCE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <SIIAttendance />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_MARK_ATTENDANCE_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <AttendanceDetailsSsii />
           </ProtectedRoute>
         ),
       },

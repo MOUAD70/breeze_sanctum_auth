@@ -23,9 +23,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SSIAP_1_DASHBOARD_ROUTE } from '../../../routes';
+import { SSIAP_2_DASHBOARD_ROUTE } from '../../../routes';
 
-const AttendanceDetailsSsi = () => {
+const AttendanceDetailsSsii = () => {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const [loading, setLoading] = useState(true);
@@ -124,7 +124,7 @@ const AttendanceDetailsSsi = () => {
 
       // Show success message briefly before redirecting
       setTimeout(() => {
-        navigate(SSIAP_1_DASHBOARD_ROUTE);
+        navigate(SSIAP_2_DASHBOARD_ROUTE);
       }, 1500);
     } catch (err) {
       console.error('Error submitting attendance:', err);
@@ -342,4 +342,4 @@ const AttendanceDetailsSsi = () => {
   );
 };
 
-export default AttendanceDetailsSsi;
+export default AttendanceDetailsSsii;

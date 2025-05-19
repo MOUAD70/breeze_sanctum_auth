@@ -16,4 +16,20 @@ class Attendance extends Model
         'date',
         'status'
     ];
+
+    /**
+     * Get the employee that owns the attendance record.
+     */
+    public function employee(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'employee_id');
+    }
+
+    /**
+     * Get the shift that owns the attendance record.
+     */
+    public function shift(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(EmployeeTeamAssignment::class, 'shift_id');
+    }
 }

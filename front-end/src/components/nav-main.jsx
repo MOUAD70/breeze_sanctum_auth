@@ -50,7 +50,7 @@ export function NavMain({ items }) {
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <Link className="hover:bg-sky-100" to={subItem.url}>
+                        <Link className="hover:bg-sky-100 active:bg-sky-200 transition-colors duration-200" to={subItem.url}>
                           <span>{subItem.title}</span>
                         </Link>
                       </SidebarMenuSubButton>

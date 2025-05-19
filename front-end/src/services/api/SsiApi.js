@@ -115,6 +115,45 @@ const SsiApi = {
   deleteTeam: async (id) => {
     return axiosClient.delete(`/api/teams/${id}`);
   },
+
+  // Analytics API
+  getAllAnalytics: async () => {
+    return axiosClient.get("/api/analytics");
+  },
+  getIncidentsAnalytics: async () => {
+    return axiosClient.get("/api/analytics/incidents");
+  },
+  getUsersAnalytics: async () => {
+    return axiosClient.get("/api/analytics/users");
+  },
+  getSitesAnalytics: async () => {
+    return axiosClient.get("/api/analytics/sites");
+  },
+
+  // Attendance API
+  getAttendance: async (params = {}) => {
+    try {
+      console.log("SsiApi.getAttendance called with params:", params);
+      const response = await axiosClient.get("/api/attendance", { params });
+      console.log("SsiApi.getAttendance response:", response);
+      return response;
+    } catch (error) {
+      console.error("SsiApi.getAttendance error:", error);
+      throw error;
+    }
+  },
+  getOneAttendance: async (id) => {
+    return axiosClient.get(`/api/attendance/${id}`);
+  },
+  createAttendance: async (attendanceData) => {
+    return axiosClient.post("/api/attendance", attendanceData);
+  },
+  updateAttendance: async (id, attendanceData) => {
+    return axiosClient.put(`/api/attendance/${id}`, attendanceData);
+  },
+  deleteAttendance: async (id) => {
+    return axiosClient.delete(`/api/attendance/${id}`);
+  },
 };
 
 export default SsiApi;

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\EmployeeTeamAssignmentController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\SiteController;
@@ -56,6 +58,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/teams/{id}', [TeamsController::class, 'update']);
     Route::delete('/teams/{id}', [TeamsController::class, 'destroy']);
     Route::get('/teams/{id}/members', [TeamsController::class, 'getTeamMembers']);
+});
+
+// ANALYTICS ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/analytics', [AnalyticsController::class, 'index']);
+    Route::get('/analytics/incidents', [AnalyticsController::class, 'incidents']);
+    Route::get('/analytics/users', [AnalyticsController::class, 'users']);
+    Route::get('/analytics/sites', [AnalyticsController::class, 'sites']);
+});
+
+// ATTENDANCE ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::post('/attendance', [AttendanceController::class, 'store']);
+    Route::get('/attendance/{id}', [AttendanceController::class, 'show']);
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update']);
+    Route::delete('/attendance/{id}', [AttendanceController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

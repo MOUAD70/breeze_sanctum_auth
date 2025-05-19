@@ -16,9 +16,11 @@ import {
 import { Outlet } from "react-router-dom";
 import {
   SSIAP_2_ASSIGNMENTS_ROUTE,
+  SSIAP_2_ATTENDANCE_ROUTE,
   SSIAP_2_DASHBOARD_ROUTE,
   SSIAP_2_EMPLOYEES_ROUTE,
   SSIAP_2_INCIDENTS_ROUTE,
+  SSIAP_2_MARK_ATTENDANCE_ROUTE,
   SSIAP_2_SITES_ROUTE,
 } from "../../routes";
 const SIISideBar = () => {
@@ -62,11 +64,11 @@ const SIISideBar = () => {
         items: [
           {
             title: "Today's Attendance",
-            url: "#",
+            url: SSIAP_2_ATTENDANCE_ROUTE,
           },
           {
             title: "Mark Your Attendance",
-            url: "#",
+            url: SSIAP_2_MARK_ATTENDANCE_ROUTE,
           },
         ],
       },
