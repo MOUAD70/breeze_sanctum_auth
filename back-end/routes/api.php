@@ -7,6 +7,7 @@ use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VacationRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +76,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/attendance/{id}', [AttendanceController::class, 'show']);
     Route::put('/attendance/{id}', [AttendanceController::class, 'update']);
     Route::delete('/attendance/{id}', [AttendanceController::class, 'destroy']);
+});
+
+// VACATION REQUESTS ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/vacation-requests', [VacationRequestController::class, 'index']);
+    Route::post('/vacation-requests', [VacationRequestController::class, 'store']);
+    Route::get('/vacation-requests/{id}', [VacationRequestController::class, 'show']);
+    Route::put('/vacation-requests/{id}', [VacationRequestController::class, 'update']);
+    Route::delete('/vacation-requests/{id}', [VacationRequestController::class, 'destroy']);
 });
 
 require __DIR__ . '/auth.php';

@@ -14,11 +14,11 @@ class SiteSeeder extends Seeder
     public function run(): void
     {
         DB::table('sites')->insert([
-            ['site_name' => 'Hospital A', 'site_type' => 'Hospital', 'address' => '123 Health St'],
-            ['site_name' => 'Mall B', 'site_type' => 'Mall', 'address' => '456 Mall Ave'],
-            ['site_name' => 'Office C', 'site_type' => 'Office', 'address' => '789 Corporate Rd'],
-            ['site_name' => 'Hospital D', 'site_type' => 'Hospital', 'address' => '101 Health Plaza'],
-            ['site_name' => 'Mall E', 'site_type' => 'Mall', 'address' => '202 Shopping Blvd'],
+            ['site_name' => 'Hospital Saint-Louis', 'site_type' => 'Hospital', 'address' => '1 Avenue Claude Vellefaux, 75010 Paris'],
+            ['site_name' => 'Centre Commercial Beaugrenelle', 'site_type' => 'Mall', 'address' => '12 Rue Linois, 75015 Paris'],
+            ['site_name' => 'Tour Montparnasse', 'site_type' => 'Office', 'address' => '33 Avenue du Maine, 75015 Paris'],
+            ['site_name' => 'Hôpital Necker', 'site_type' => 'Hospital', 'address' => '149 Rue de Sèvres, 75015 Paris'],
+            ['site_name' => 'Les Quatre Temps', 'site_type' => 'Mall', 'address' => '15 Parvis de la Défense, 92092 Paris'],
         ]);
     }
 }
