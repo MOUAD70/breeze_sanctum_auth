@@ -7,7 +7,7 @@ import Unauthorized from "../pages/errors/Unauthorized";
 import SIIIAttendance from "../components/ssiap-3/ManageAttendance/SIIIAttendance";
 import EmployeesList from "../components/ssiap-3/ManageEmployees/EmployeesList";
 import Replacement from "../components/ssiap-3/Replacement";
-import Vacations from "../components/ssiap-3/Vacations";
+import Vacations from "../components/ssiap-3/ManageVacations/Vacations";
 import EmployeesListII from "../components/ssiap-2/ManageEmployees/EmployeesListII";
 import AddEmployeeForm from "../components/ssiap-3/ManageEmployees/AddEmployeeForm";
 import AddEmployeeFormII from "../components/ssiap-2/ManageEmployees/AddEmployeeFormII";
@@ -38,6 +38,7 @@ import AddShiftSsii from "../components/ssiap-2/ManageShifts/AddShiftSsii";
 import ShiftDetailsSsii from "../components/ssiap-2/ManageShifts/ShiftDetailsSsii";
 import SIIAttendance from "../components/ssiap-2/ManageAttendance/SIIAttendance";
 import AttendanceDetailsSsii from "../components/ssiap-2/ManageAttendance/AttendanceDetailsSsii";
+import VacationsII from "../components/ssiap-2/ManageVacations/VacationsII";
 
 const Home = lazy(() => import("../pages/Home"));
 const Login = lazy(() => import("../pages/Login"));
@@ -75,6 +76,7 @@ export const SSIAP_2_ADD_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/add";
 export const SSIAP_2_EDIT_ASSIGNMENT_ROUTE = "/ssiap-2/assignments/edit/:id";
 export const SSIAP_2_ATTENDANCE_ROUTE = "/ssiap-2/attendance";
 export const SSIAP_2_MARK_ATTENDANCE_ROUTE = "/ssiap-2/attendance/mark";
+export const SSIAP_2_VACATIONS_ROUTE = "/ssiap-2/vacations";
 
 // SSIAP 3
 export const SSIAP_3_DASHBOARD_ROUTE = "/ssiap-3/dashboard";
@@ -276,6 +278,14 @@ export const routes = createBrowserRouter([
         element: (
           <ProtectedRoute requiredLevel={2}>
             <AttendanceDetailsSsii />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: SSIAP_2_VACATIONS_ROUTE,
+        element: (
+          <ProtectedRoute requiredLevel={2}>
+            <VacationsII />
           </ProtectedRoute>
         ),
       },

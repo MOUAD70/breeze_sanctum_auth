@@ -61,13 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/teams/{id}/members', [TeamsController::class, 'getTeamMembers']);
 });
 
-// ANALYTICS ROUTES
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/analytics', [AnalyticsController::class, 'index']);
-    Route::get('/analytics/incidents', [AnalyticsController::class, 'incidents']);
-    Route::get('/analytics/users', [AnalyticsController::class, 'users']);
-    Route::get('/analytics/sites', [AnalyticsController::class, 'sites']);
-});
 
 // ATTENDANCE ROUTES
 Route::middleware('auth:sanctum')->group(function () {
@@ -86,5 +79,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/vacation-requests/{id}', [VacationRequestController::class, 'update']);
     Route::delete('/vacation-requests/{id}', [VacationRequestController::class, 'destroy']);
 });
+
+// ANALYTICS ROUTES
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/analytics/charts', [AnalyticsController::class, 'getChartData']);
+});
+
 
 require __DIR__ . '/auth.php';

@@ -22,6 +22,7 @@ import {
   SSIAP_2_INCIDENTS_ROUTE,
   SSIAP_2_MARK_ATTENDANCE_ROUTE,
   SSIAP_2_SITES_ROUTE,
+  SSIAP_2_VACATIONS_ROUTE,
 } from "../../routes";
 const SIISideBar = () => {
   const data = {
@@ -47,14 +48,7 @@ const SIISideBar = () => {
             title: "Employees list",
             url: SSIAP_2_EMPLOYEES_ROUTE,
           },
-          {
-            title: "Vacations Request",
-            url: "#",
-          },
-          {
-            title: "Manage Replacements",
-            url: "#",
-          },
+         
         ],
       },
       {

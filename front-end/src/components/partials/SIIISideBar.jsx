@@ -20,7 +20,6 @@ import {
   SSIAP_3_DASHBOARD_ROUTE,
   SSIAP_3_EMPLOYEES_ROUTE,
   SSIAP_3_INCIDENTS_ROUTE,
-  SSIAP_3_REPLACEMENT_ROUTE,
   SSIAP_3_SITES_ROUTE,
   SSIAP_3_VACATIONS_ROUTE,
 } from "../../routes";
@@ -47,15 +46,6 @@ const SIIISideBar = () => {
           {
             title: "Employees list",
             url: SSIAP_3_EMPLOYEES_ROUTE,
-          },
-          ,
-          {
-            title: "Vacations Request",
-            url: SSIAP_3_VACATIONS_ROUTE,
-          },
-          {
-            title: "Manage Replacements",
-            url: SSIAP_3_REPLACEMENT_ROUTE,
           },
         ],
       },

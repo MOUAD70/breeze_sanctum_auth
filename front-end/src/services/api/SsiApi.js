@@ -116,20 +116,6 @@ const SsiApi = {
     return axiosClient.delete(`/api/teams/${id}`);
   },
 
-  // Analytics API
-  getAllAnalytics: async () => {
-    return axiosClient.get("/api/analytics");
-  },
-  getIncidentsAnalytics: async () => {
-    return axiosClient.get("/api/analytics/incidents");
-  },
-  getUsersAnalytics: async () => {
-    return axiosClient.get("/api/analytics/users");
-  },
-  getSitesAnalytics: async () => {
-    return axiosClient.get("/api/analytics/sites");
-  },
-
   // Attendance API
   getAttendance: async (params = {}) => {
     try {
@@ -153,6 +139,75 @@ const SsiApi = {
   },
   deleteAttendance: async (id) => {
     return axiosClient.delete(`/api/attendance/${id}`);
+  },
+
+  // Vacation Requests API
+  getVacationRequests: async (params = {}) => {
+    try {
+      const response = await axiosClient.get("/api/vacation-requests", {
+        params,
+      });
+      return response;
+    } catch (error) {
+      console.error("Error fetching vacation requests:", error);
+      throw error;
+    }
+  },
+
+  getOneVacationRequest: async (id) => {
+    try {
+      const response = await axiosClient.get(`/api/vacation-requests/${id}`);
+      return response;
+    } catch (error) {
+      console.error(`Error fetching vacation request with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  createVacationRequest: async (vacationData) => {
+    try {
+      const response = await axiosClient.post(
+        "/api/vacation-requests",
+        vacationData
+      );
+      return response;
+    } catch (error) {
+      console.error("Error creating vacation request:", error);
+      throw error;
+    }
+  },
+
+  updateVacationRequest: async (id, vacationData) => {
+    try {
+      const response = await axiosClient.put(
+        `/api/vacation-requests/${id}`,
+        vacationData
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error updating vacation request with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  deleteVacationRequest: async (id) => {
+    try {
+      const response = await axiosClient.delete(`/api/vacation-requests/${id}`);
+      return response;
+    } catch (error) {
+      console.error(`Error deleting vacation request with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  getChartData: async () => {
+    try {
+      const response = await axiosClient.get("/api/analytics/charts");
+      return response;
+    } catch (error) {
+      console.error("Error fetching chart data:", error);
+      throw error;
+    }
   },
 };
 
